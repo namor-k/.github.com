@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Мастер на все руки — Тамбов</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50; /* Темно-синий/почти черный для контраста */
+            --secondary-color: #3498db; /* Яркий синий для акцентов */
+            --light-bg: #ecf0f1; /* Очень светлый серый фон */
+            --white-bg: #ffffff;
+            --text-color: #34495e; /* Темный серый для текста */
+            --shadow-light: 0 4px 8px rgba(0,0,0,0.05);
+            --shadow-medium: 0 8px 16px rgba(0,0,0,0.1);
+            --shadow-strong: 0 12px 24px rgba(0,0,0,0.2);
+            --border-radius-card: 10px;
+            --form-border-color: #99aab5; /* Более заметный цвет рамки для полей формы */
+        }
+
+        body {
+            background: linear-gradient(to bottom right, #f8f8f8, #e0e0e0);
+            color: var(--text-color);
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            background: var(--primary-color);
+            color: white;
+            padding: 2.5em 0;
+            text-align: center;
+            box-shadow: var(--shadow-medium);
+        }
+
+        header h1 {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.8em;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            margin: 10px 0 0;
+            font-size: 1.4em;
+            opacity: 0.9;
+        }
+
+        main {
+            width: 100%; /* Занимает всю доступную ширину */
+            margin: 40px auto;
+            padding: 0 2em; /* Отступы по бокам для контента */
+            box-sizing: border-box; /* Чтобы padding учитывался в ширине */
+        }
+
+        section {
+            background: var(--white-bg);
+            padding: 3em;
+            margin-bottom: 40px;
+            border-radius: var(--border-radius-card);
+            box-shadow: var(--shadow-light);
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
+        
+        /* Асимметрия для секций */
+        section:nth-child(odd) {
+            margin-right: auto;
+            max-width: calc(100% - 4em); /* Компенсируем padding main */
+        }
+        section:nth-child(even) {
+            margin-left: auto;
+            max-width: calc(100% - 4em); /* Компенсируем padding main */
+        }
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        section h2 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 1.5em;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.8em;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--secondary-color);
+            border-radius: 2px;
+        }
+
+        .welcome-content {
+            text-align: center;
+            font-size: 1.15em;
+            color: var(--text-color);
+            margin-top: 20px;
+            line-height: 1.7;
+        }
+
+        .video-wrapper {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            margin-bottom: 2em;
+            background-color: black;
+        }
+        .video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Постоянно 4 колонки */
+            gap: 20px; /* Уменьшил расстояние между карточками */
+            justify-content: center; /* Центрирование элементов сетки */
+            margin: 2em auto 0 auto;
+            width: calc(100% - 4em); /* Чтобы занимали всю ширину main с учетом padding */
+            box-sizing: border-box; /* Учитываем padding */
+        }
+
+        .service-card {
+            background: var(--light-gray);
+            padding: 15px;
+            border-radius: var(--border-radius-card);
+            box-shadow: var(--shadow-light);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: var(--shadow-medium);
+            background: #e0e5e9;
+        }
+
+        /* Стиль для изображений услуг (максимально увеличены, не обрезаются) */
+        .service-card img {
+            width: 100%; /* Занимает всю доступную ширину карточки */
+            max-width: 180px; /* Увеличил максимальный размер */
+            height: auto;
+            aspect-ratio: 1/1;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 2px solid var(--secondary-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            padding: 5px;
+            background-color: var(--white-bg);
+            transform: scale(1); /* Начальное состояние */
+        }
+        .service-card:hover img {
+            transform: scale(2); /* Увеличиваем на 100% (то есть в 2 раза) */
+            border-color: var(--primary-color);
+            z-index: 10; /* Поднимаем картинку над соседними */
+            position: relative; /* Необходим для z-index */
+        }
+
+        .service-card h3 {
+            color: var(--primary-color);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.4em;
+            margin-bottom: 8px;
+        }
+
+        .service-card p {
+            font-size: 0.9em;
+            color: var(--text-color);
+            line-height: 1.4;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 колонки в ряд */
+            gap: 15px; /* Уменьшил отступ между фото */
+            margin-top: 2em;
+            max-width: 95%; /* Ограничиваем ширину галереи */
+            margin-left: auto;
+            margin-right: auto;
+            padding: 15px; /* Увеличил внутренние отступы */
+            box-sizing: border-box; /* Чтобы padding не увеличивал общую ширину */
+            /* overflow: hidden; */ /* Если хотим обрезать, что выходит за рамки */
+        }
+        /* Адаптивность для галереи */
+        @media (max-width: 1200px) { /* На экранах до 1200px, 3 колонки (по умолчанию) */
+            .gallery {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (max-width: 992px) { /* На планшетах, 2 колонки */
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 768px) { /* На мобильных, 1 колонка */
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 200px; /* Сохраняем высоту */
+            aspect-ratio: 1 / 1; /* Квадратные изображения */
+            object-fit: cover;
+            border-radius: var(--border-radius-card);
+            box-shadow: var(--shadow-light);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: zoom-in;
+            transform: scale(1); /* Начальное состояние */
+        }
+
+        .gallery img:hover {
+            transform: scale(2); /* Увеличиваем на 100% (то есть в 2 раза) */
+            box-shadow: var(--shadow-strong);
+            z-index: 10;
+            position: relative;
+        }
+
+        /* Медиа-запросы для галереи, чтобы уменьшить увеличение на меньших экранах */
+        /* На 1600px и шире, если есть 3 колонки, увеличение 2.0 (100%) */
+        @media (min-width: 1600px) {
+            .gallery {
+                grid-template-columns: repeat(3, 1fr); /* Позволяет 3 колонки на больших экранах */
+                max-width: 1000px; /* Ограничиваем ширину галереи, чтобы картинки не были слишком большими */
+            }
+            .gallery img:hover {
+                transform: scale(2); /* Увеличение до 100% */
+            }
+        }
+        /* На 1200px и шире, если есть 3 колонки, увеличение 2.0 (100%) */
+        @media (min-width: 1200px) and (max-width: 1599px) {
+            .gallery img:hover {
+                transform: scale(2); /* Увеличение до 100% */
+            }
+        }
+        /* На 992px и шире, если есть 2 колонки, увеличение 2.0 (100%) */
+        @media (min-width: 992px) and (max-width: 1199px) {
+            .gallery img:hover {
+                transform: scale(2); /* Увеличение до 100% */
+            }
+        }
+        /* На 768px и шире, если есть 2 колонки, увеличение 2.5 (150%) */
+        @media (min-width: 768px) and (max-width: 991px) {
+            .gallery img:hover {
+                transform: scale(2.5); /* Немного уменьшаем увеличение на планшетах */
+            }
+        }
+        /* На 480px и шире, если есть 1 колонка, увеличение 2.0 (100%) */
+        @media (min-width: 480px) and (max-width: 767px) {
+            .gallery img:hover {
+                transform: scale(2.5); /* На мобильных с 2 колонками */
+            }
+        }
+        /* На самых маленьких экранах, 1 колонка, увеличение 2.0 (100%) */
+        @media (max-width: 479px) {
+            .gallery img:hover {
+                transform: scale(2); /* Увеличение 100% на самых маленьких */
+            }
+        }
+
+
+        .gallery-note {
+            text-align: center;
+            font-style: italic;
+            color: #6c757d;
+            margin-top: 1.5em;
+            font-size: 0.9em;
+        }
+
+        .contact-info-text {
+            text-align: center;
+            font-size: 1.1em;
+            margin-bottom: 1.5em;
+        }
+
+        .telegram-button {
+            display: inline-block;
+            background: #0088cc; /* Цвет Telegram */
+            color: white;
+            padding: 15px 30px;
+            border-radius: var(--border-radius-card);
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: var(--shadow-medium);
+            margin-top: 1em;
+        }
+
+        .telegram-button:hover {
+            background: #0077b3; /* Чуть темнее при наведении */
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-strong);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 2em;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        form label {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        form input:where([type="text"],[type="email"],[type="tel"]),
+        form textarea {
+            width: 100%;
+            min-height: 120px; /* Увеличена минимальная высота для видимости */
+            resize: vertical;
+            padding: 12px;
+            border: 1px solid var(--form-border-color); /* Используем новую переменную для цвета рамки */
+            border-radius: var(--border-radius-card);
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1em;
+            background: var(--white-bg);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.03);
+        }
+
+        form button {
+            background: var(--secondary-color);
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: var(--border-radius-card);
+            cursor: pointer;
+            font-size: 1.2em;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: var(--shadow-medium);
+            align-self: center;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        form button:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-strong);
+        }
+
+        .form-note {
+            text-align: center;
+            font-size: 0.85em;
+            color: #6c757d;
+            margin-top: 1em;
+        }
+
+        footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5em;
+            margin-top: 50px;
+            font-size: 0.9em;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            main {
+                max-width: 90%;
+            }
+            section:nth-child(odd),
+            section:nth-child(even) {
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 90%;
+            }
+            .services-grid {
+                grid-template-columns: repeat(3, 1fr); /* 3 колонки на планшетах */
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+            header p {
+                font-size: 1em;
+            }
+            main {
+                padding: 0 1em;
+            }
+            section {
+                padding: 2em;
+                margin-bottom: 25px;
+            }
+            section h2 {
+                font-size: 2.2em;
+                padding-bottom: 10px;
+            }
+            section h2::after {
+                width: 80px;
+                height: 2px;
+            }
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 колонки на мобильных (пошире) */
+                gap: 15px;
+            }
+            .gallery {
+                grid-template-columns: repeat(2, 1fr); /* 2 колонки на мобильных */
+                gap: 10px;
+                padding: 5px; /* Уменьшаем padding на маленьких экранах */
+            }
+            .service-card img {
+                width: 140px; /* Уменьшил размер для планшетов */
+                height: 140px;
+                border-radius: 6px;
+            }
+            .video-wrapper {
+                margin-left: calc(-1em);
+                margin-right: calc(-1em);
+                width: calc(100% + 2em);
+                border-radius: 0;
+            }
+            .video-wrapper video {
+                border-radius: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 2em;
+            }
+            header p {
+                font-size: 0.9em;
+            }
+            section {
+                padding: 1.5em;
+            }
+            .services-grid, .gallery {
+                grid-template-columns: 1fr; /* В один столбец на очень маленьких экранах */
+                gap: 10px;
+                padding: 0; /* Убираем padding на очень маленьких экранах */
+            }
+            .service-card h3 {
+                font-size: 1.3em;
+            }
+            .service-card img {
+                width: 120px; /* Уменьшил размер для телефонов */
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Мастер на все руки</h1>
+        <p>Надежные решения для вашего дома в Тамбове</p>
+    </header>
+
+    <main>
+        <section id="welcome">
+            <h2>Приветствие</h2>
+            <div class="video-wrapper">
+                <video autoplay controls muted loop>
+                    <source src="Format_widescreen_169_202506131411.mp4" type="video/mp4"/>
+                    Ваш браузер не поддерживает видео.
+                </video>
+            </div>
+            <p class="welcome-content">
+                Мы предлагаем широкий спектр услуг по ремонту и обустройству, чтобы ваш дом или офис всегда были в идеальном состоянии.
+                От мелких бытовых задач до сложных технических работ — мы гарантируем качество, надежность и индивидуальный подход к каждому проекту.
+                Обратитесь к нам, чтобы получить профессиональную помощь и сэкономить свое время!
+            </p>
+        </section>
+
+        <section id="services">
+            <h2>Наши услуги</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <img src="lektroprovodka (2).png" alt="Электропроводка">
+                    <h3>Электропроводка</h3>
+                    <p>Монтаж, ремонт и диагностика электропроводки, пайка контактов.</p>
+                </div>
+                <div class="service-card">
+                    <img src="откосы.png" alt="Металл, сайдинг, откосы">
+                    <h3>Металл, сайдинг, откосы</h3>
+                    <p>Работы с металлическими элементами, установка сайдинга и отделка откосов.</p>
+                </div>
+                <div class="service-card">
+                    <img src="videosemka_montazh_3d.png" alt="Видеосъёмка, монтаж, 3D">
+                    <h3>Видеосъёмка, монтаж, 3D</h3>
+                    <p>Профессиональная видеосъёмка, качественный монтаж и создание 3D-моделей.</p>
+                </div>
+                <div class="service-card">
+                    <img src="svarochnye_raboty.png" alt="Сварочные работы">
+                    <h3>Сварочные работы</h3>
+                    <p>Выполнение сварочных работ любой сложности для различных конструкций.</p>
+                </div>
+                <div class="service-card">
+                    <img src="pajka_trub_santehnika.png" alt="Пайка пластиковых труб и сантехника">
+                    <h3>Пайка пластиковых труб и сантехника</h3>
+                    <p>Монтаж и ремонт систем водоснабжения, отопления, замена и установка сантехники.</p>
+                </div>
+                <div class="service-card">
+                    <img src="metall_sajding_otkosy.png" alt="Монтаж сайдинга">
+                    <h3>Монтаж сайдинга</h3>
+                    <p>Профессиональная и аккуратная установка сайдинга на любые поверхности.</p>
+                </div>
+                 <div class="service-card">
+                    <img src="laminate_install.png" alt="Укладка ламината">
+                    <h3>Укладка ламината</h3>
+                    <p>Качественная укладка ламината и других напольных покрытий.</p>
+                </div>
+                <div class="service-card">
+                    <img src="ustanovka_okon.png" alt="Установка пластиковых окон">
+                    <h3>Установка пластиковых окон</h3>
+                    <p>Монтаж и замена пластиковых окон, включая отделку.</p>
+                </div>
+                <div class="service-card">
+                    <img src="remont_bytovoj_tehniki.png" alt="Ремонт бытовой техники">
+                    <h3>Ремонт бытовой техники</h3>
+                    <p>Диагностика и ремонт крупной и мелкой бытовой техники.</p>
+                </div>
+                <div class="service-card">
+                    <img src="svarochnye_raboty.png" alt="Сварка металлоконструкций">
+                    <h3>Сварка металлоконструкций</h3>
+                    <p>Профессиональная сварка и монтаж металлоконструкций любой сложности.</p>
+                </div>
+                <div class="service-card">
+                    <img src="structures_assembly.png" alt="Монтаж и демонтаж конструкций">
+                    <h3>Монтаж и демонтаж конструкций</h3>
+                    <p>Сборка и разборка различных строительных и бытовых конструкций.</p>
+                </div>
+                <div class="service-card">
+                    <img src="minor_repairs.png" alt="Мелкий бытовой ремонт и сборка мебели">
+                    <h3>Мелкий бытовой ремонт и сборка мебели</h3>
+                    <p>Ремонт мебели, навеска полок, установка карнизов и другие мелкие задачи.</p>
+                </div>
+                 <div class="service-card">
+                    <img src="vyjezd_k_mestu.png" alt="Выезд к месту ремонта">
+                    <h3>Выезд к месту ремонта</h3>
+                    <p>Оперативный выезд по Тамбову и области для оценки и выполнения работ.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio">
+            <h2>Примеры работ</h2>
+            <div class="gallery">
+                <img alt="Фото выполненных работ 1" src="1.jpg"/>
+                <img alt="Фото выполненных работ 2" src="2.jpg"/>
+                <img alt="Фото выполненных работ 3" src="3.jpg"/>
+                <img alt="Фото выполненных работ 4" src="4.jpg"/>
+                <img alt="Фото выполненных работ 5" src="5.jpg"/>
+                <img alt="Фото выполненных работ 6" src="6.jpg"/>
+                <img alt="Фото выполненных работ 7" src="7.jpg"/>
+                <img alt="Фото выполненных работ 8" src="8.jpg"/>
+                <img alt="Фото выполненных работ 9" src="9.jpg"/>
+                <img alt="Фото выполненных работ 10" src="10.jpg"/>
+                <img alt="Фото выполненных работ 11" src="11.jpg"/>
+                <img alt="Фото выполненных работ 12" src="12.jpg"/>
+            </div>
+            <p class="gallery-note">
+                Здесь вы можете ознакомиться с примерами наших выполненных работ.
+                Чтобы увидеть больше, свяжитесь с нами!
+            </p>
+        </section>
+
+        <section id="contact-info-section">
+            <h2>Связь с нами</h2>
+            <p style="text-align: center;">
+                Возникли вопросы или нужна помощь? Свяжитесь с нами удобным для вас способом:
+            </p>
+            <p style="text-align: center;">
+                <a href="https://t.me/MasterTambovOtDyshi_Bot" target="_blank" class="telegram-button">
+                    Написать в Telegram
+                </a>
+            </p>
+        </section>
+
+        <section id="contact-form">
+            <h2>Отправить заявку</h2>
+            <form id="telegram-form">
+                <input name="chat_id" type="hidden" value="668627439"/>
+                <label for="name">Ваше имя:</label>
+                <input id="name" name="Имя" required type="text" placeholder="Иван Иванов"/>
+
+                <label for="phone">Ваш телефон:</label>
+                <input id="phone" name="Телефон" required type="text" placeholder="+7 (XXX) XXX-XX-XX"/>
+
+                <label for="message">Опишите вашу задачу подробно:</label>
+                <textarea id="message" name="Сообщение" required rows="6" placeholder="Например: 'Нужно починить проводку в ванной...'"></textarea>
+
+                <button type="submit">Отправить заявку</button>
+            </form>
+            <p class="form-note">
+                Ваша заявка будет отправлена напрямую в наш Telegram.
+                Мы свяжемся с вами в ближайшее время для уточнения деталей!
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Мастер на все руки. Тамбов.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('telegram-form');
+            const botToken = '7581738679:AAFOfWXjuC1gxmt_YVu-MhKfASnfc0pU2z0';
+            const chatId = form.querySelector('input[name="chat_id"]').value;
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const name = form.querySelector('input[name="Имя"]').value;
+                const phone = form.querySelector('input[name="Телефон"]').value;
+                const message = form.querySelector('textarea[name="Сообщение"]').value;
+
+                if (!name.trim() || !phone.trim() || !message.trim()) {
+                    alert('Пожалуйста, заполните все обязательные поля: Имя, Телефон и Сообщение.');
+                    return;
+                }
+
+                const fullTelegramMessage = `НОВАЯ ЗАЯВКА С САЙТА:\n` +
+                                            `Имя: ${name}\n` +
+                                            `Телефон: ${phone}\n` +
+                                            `Сообщение: ${message}`;
+
+                const encodedMessage = encodeURIComponent(fullTelegramMessage);
+                const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodedMessage}`;
+
+                window.open(telegramApiUrl, '_blank');
+
+                alert('Ваша заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.');
+                form.reset();
+            });
+        });
+    </script>
+</body>
+</html>
