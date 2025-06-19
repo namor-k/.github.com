@@ -316,6 +316,10 @@
             background: var(--white-bg);
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.03);
         }
+        
+        form input {
+            min-height: 0; /* Отменяем min-height для input */
+        }
 
         form button {
             background: var(--secondary-color);
@@ -560,14 +564,18 @@
             <h2>Отправить заявку</h2>
             <form id="telegram-form">
                 <input name="chat_id" type="hidden" value="668627439"/>
+                
                 <label for="name">Ваше имя:</label>
                 <input id="name" name="Имя" required type="text" placeholder="Иван Иванов"/>
 
                 <label for="phone">Ваш телефон:</label>
                 <input id="phone" name="Телефон" required type="text" placeholder="+7 (XXX) XXX-XX-XX"/>
+                
+                <label for="address">Ваш адрес (необязательно):</label>
+                <input id="address" name="Адрес" type="text" placeholder="г. Тамбов, ул. Советская, д. 1"/>
 
-                <label for="message">Опишите вашу задачу подробно:</label>
-                <textarea id="message" name="Сообщение" required rows="6" placeholder="Например: 'Нужно починить проводку в ванной...'"></textarea>
+                <label for="comment">Комментарий:</label>
+                <textarea id="comment" name="Комментарий" required rows="6" placeholder="Опишите вашу задачу или оставьте комментарий..."></textarea>
 
                 <button type="submit">Отправить заявку</button>
             </form>
@@ -615,7 +623,7 @@
             // --- Конец скрипта для галереи ---
 
 
-            // --- Скрипт для формы Telegram ---
+            // --- Обновленный скрипт для формы Telegram ---
             const form = document.getElementById('telegram-form');
             if (form) {
                 const botToken = '7581738679:AAFOfWXjuC1gxmt_YVu-MhKfASnfc0pU2z0';
@@ -626,17 +634,20 @@
 
                     const name = form.querySelector('input[name="Имя"]').value;
                     const phone = form.querySelector('input[name="Телефон"]').value;
-                    const message = form.querySelector('textarea').value;
+                    const address = form.querySelector('input[name="Адрес"]').value; // Получаем адрес
+                    const comment = form.querySelector('textarea[name="Комментарий"]').value; // Получаем комментарий
 
-                    if (!name.trim() || !phone.trim() || !message.trim()) {
-                        alert('Пожалуйста, заполните все обязательные поля: Имя, Телефон и Сообщение.');
+                    if (!name.trim() || !phone.trim() || !comment.trim()) {
+                        alert('Пожалуйста, заполните все обязательные поля: Имя, Телефон и Комментарий.');
                         return;
                     }
-
-                    const fullTelegramMessage = `НОВАЯ ЗАЯВКА С САЙТА:\n` +
-                                                `Имя: ${name}\n` +
-                                                `Телефон: ${phone}\n` +
-                                                `Сообщение: ${message}`;
+                    
+                    // Формируем новое сообщение с иконками
+                    const fullTelegramMessage = `🛠 Новая заявка:\n` +
+                                                `👤 Имя: ${name}\n` +
+                                                `📞 Телефон: ${phone}\n` +
+                                                `📍 Адрес: ${address || 'не указан'}\n` + // Если адрес не указан, пишем "не указан"
+                                                `💬 Комментарий: ${comment}`;
 
                     const encodedMessage = encodeURIComponent(fullTelegramMessage);
                     const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodedMessage}`;
