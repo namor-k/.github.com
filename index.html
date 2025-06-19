@@ -54,7 +54,7 @@
         main {
             width: 100%; /* Занимает всю доступную ширину */
             margin: 40px auto;
-            padding: 0 2em; /* Отступы по бокам для контента */
+            padding: 0; /* Убраны боковые отступы */
             box-sizing: border-box; /* Чтобы padding учитывался в ширине */
         }
 
@@ -67,15 +67,6 @@
             transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
         }
         
-        /* Асимметрия для секций */
-        section:nth-child(odd) {
-            margin-right: auto;
-            max-width: calc(100% - 4em); /* Компенсируем padding main */
-        }
-        section:nth-child(even) {
-            margin-left: auto;
-            max-width: calc(100% - 4em); /* Компенсируем padding main */
-        }
         section:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-medium);
@@ -102,6 +93,17 @@
             background: var(--secondary-color);
             border-radius: 2px;
         }
+        
+        /* Стили для секции с видео */
+        #welcome {
+            padding-left: 0;
+            padding-right: 0;
+        }
+        
+        #welcome h2, #welcome .welcome-content {
+            padding-left: 3em;
+            padding-right: 3em;
+        }
 
         .welcome-content {
             text-align: center;
@@ -110,28 +112,13 @@
             margin-top: 20px;
             line-height: 1.7;
         }
-
-        /* Обновленные стили для видео: на десктопах - на всю ширину viewport, на мобильных - на 100% ширины main */
-        .video-wrapper { /* Этот класс не используется в HTML, который вы предоставили. */
-            width: 100vw;
-            position: relative;
-            left: 50%;
-            right: 50%;
-            margin-left: -50vw;
-            margin-right: -50vw;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
-            overflow: hidden;
-            margin-bottom: 2em;
-            background-color: black;
-        }
         
-        /* New styles to center video on desktop */
         video {
-            display: block; /* Make it a block-level element */
-            margin: 0 auto; /* Center the block-level element horizontally */
-            max-width: 100%; /* Ensures it doesn't overflow its parent */
-            height: auto; /* Maintains aspect ratio */
+            display: block;
+            width: 100%; 
+            max-width: 100%; 
+            height: auto; 
+            margin: 0;
         }
 
         .services-grid {
@@ -140,7 +127,7 @@
             gap: 20px; /* Уменьшил расстояние между карточками */
             justify-content: center; /* Центрирование элементов сетки */
             margin: 2em auto 0 auto;
-            width: calc(100% - 4em); /* Чтобы занимали всю ширину main с учетом padding */
+            width: 100%;
             box-sizing: border-box; /* Учитываем padding */
         }
 
@@ -207,7 +194,6 @@
             max-width: 100%; /* Использовать всю доступную ширину родителя */
             margin-left: auto;
             margin-right: auto;
-            padding: 0 15px; /* Внутренние отступы для защиты от выхода за края */
             box-sizing: border-box; /* Учитываем padding в ширине */
         }
         /* Адаптивность для галереи */
@@ -397,15 +383,6 @@
 
         /* Адаптивность */
         @media (max-width: 992px) {
-            main {
-                max-width: 90%;
-            }
-            section:nth-child(odd),
-            section:nth-child(even) {
-                margin-left: auto;
-                margin-right: auto;
-                max-width: 90%;
-            }
             .services-grid {
                 grid-template-columns: repeat(3, 1fr); /* 3 колонки на планшетах */
                 gap: 20px;
@@ -419,12 +396,19 @@
             header p {
                 font-size: 1em;
             }
-            main {
-                padding: 0 1em;
-            }
             section {
                 padding: 2em;
                 margin-bottom: 25px;
+            }
+            #welcome {
+                padding-top: 2em;
+                padding-bottom: 2em;
+                padding-left: 0;
+                padding-right: 0;
+            }
+            #welcome h2, #welcome .welcome-content {
+                padding-left: 2em;
+                padding-right: 2em;
             }
             section h2 {
                 font-size: 2.2em;
@@ -448,15 +432,6 @@
                 height: 140px;
                 border-radius: 6px;
             }
-            /* Растягиваем видео на всю ширину экрана на мобильных устройствах */
-            video {
-                position: relative;
-                width: 100vw;
-                left: 50%;
-                margin-left: -50vw;
-                max-width: 100vw;
-                box-sizing: border-box;
-            }
         }
 
         @media (max-width: 480px) {
@@ -468,6 +443,10 @@
             }
             section {
                 padding: 1.5em;
+            }
+            #welcome h2, #welcome .welcome-content {
+                padding-left: 1.5em;
+                padding-right: 1.5em;
             }
             .services-grid, .gallery {
                 grid-template-columns: 1fr; /* В один столбец на очень маленьких экранах */
