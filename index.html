@@ -134,18 +134,6 @@
             height: auto; /* Maintains aspect ratio */
         }
 
-        /* Адаптивность для видео (прямое исправление для тега video) */
-        @media (max-width: 768px) {
-            video { /* Применяем стили напрямую к тегу video*/
-                width: 100%; /* Занимает 100% ширины родителя */
-                margin-left: -1em; /* Компенсируем padding main, чтобы видео было до края экрана*/
-                margin-right: -1em; /* Компенсируем padding main*/
-                max-width: calc(100% + 2em); /* Расширяем, чтобы перекрыть padding*/
-                box-sizing: border-box; /* Учитываем padding в ширине*/
-            }
-        }
-
-
         .services-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr); /* Постоянно 4 колонки */
@@ -460,11 +448,10 @@
                 height: 140px;
                 border-radius: 6px;
             }
-            /* ИСПРАВЛЕНИЕ: Видео не будет смещаться */
-            video { /* Применяем стили напрямую к тегу video */
-                width: calc(100% + 2em); /* Расширяем, чтобы перекрыть padding main (1em с каждой стороны) */
-                margin-left: -1em; /* Смещаем влево на 1em */
-                margin-right: -1em; /* Смещаем вправо на 1em */
+            /* Растягиваем видео на всю ширину экрана */
+            video {
+                width: calc(100% + 6em); /* Компенсируем padding main (1em*2) и section (2em*2) */
+                margin-left: -3em; /* Смещаем влево на сумму padding (1em + 2em) */
                 max-width: none; /* Убираем ограничение max-width: 100% родителя */
                 box-sizing: border-box; /* Важно: чтобы padding и border не добавлялись к общей ширине */
             }
