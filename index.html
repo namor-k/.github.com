@@ -7,8 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #12bb44; /* Темно-синий/почти черный для контраста */
-            --secondary-color: #12bb44; /* Яркий синий для акцентов */
+            --primary-color: #48b432; /* Темно-синий/почти черный для контраста */
+            --secondary-color: #3498db; /* Яркий синий для акцентов */
             --light-bg: #ecf0f1; /* Очень светлый серый фон */
             --white-bg: #ffffff;
             --text-color: #34495e; /* Темный серый для текста */
@@ -111,18 +111,21 @@
             line-height: 1.7;
         }
 
+         /* Обновленные стили для видео: на десктопах - на всю ширину viewport, на мобильных - на 100% ширины main */
         .video-wrapper {
-            width: 100vw;
             position: relative;
-            left: 50%;
-            right: 50%;
-            margin-left: -50vw;
-            margin-right: -50vw;
             padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
             height: 0;
             overflow: hidden;
             margin-bottom: 2em;
             background-color: black;
+
+            /* По умолчанию для десктопов: на всю ширину viewport */
+            width: 100vw;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
         }
         .video-wrapper video {
             position: absolute;
@@ -131,6 +134,22 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        /* Адаптивность для видео */
+        @media (max-width: 768px) {
+            .video-wrapper {
+                width: 100%; /* Занимает 100% ширины родителя (main) */
+                margin-left: 0;
+                margin-right: 0;
+                left: 0; /* Сбрасываем позиционирование, чтобы не было смещения */
+                right: 0;
+                border-radius: var(--border-radius-card); /* Добавляем скругление на мобильных */
+                box-shadow: var(--shadow-light); /* Добавляем тень на мобильных */
+            }
+            .video-wrapper video {
+                border-radius: var(--border-radius-card); /* Добавляем скругление на видео */
+            }
         }
 
 
@@ -498,7 +517,6 @@
                 <video autoplay controls muted loop>
                     <source src="Format_widescreen_169_202506131411.mp4" type="video/mp4"/>
                     Ваш браузер не поддерживает видео.
-                    <p style="text-align: center;"></p>
                 </video>
             </div>
             <p class="welcome-content">
@@ -529,7 +547,7 @@
                 <div class="service-card">
                     <img src="svarochnye_raboty.png" alt="Сварочные работы">
                     <h3>Сварочные работы</h3>
-                    <p>Выполнение сварочных работ для различных конструкций.</p>
+                    <p>Выполнение сварочных работ различных конструкций.</p>
                 </div>
                 <div class="service-card">
                     <img src="pajka_trub_santehnika.png" alt="Пайка пластиковых труб и сантехника">
@@ -559,7 +577,7 @@
                 <div class="service-card">
                     <img src="svarochnye_raboty.png" alt="Сварка металлоконструкций">
                     <h3>Сварка металлоконструкций</h3>
-                    <p>Изготовление и монтаж металлоконструкций .</p>
+                    <p>Сварка и монтаж металлоконструкций.</p>
                 </div>
                 <div class="service-card">
                     <img src="structures_assembly.png" alt="Монтаж и демонтаж конструкций">
@@ -597,7 +615,7 @@
             </div>
             <p class="gallery-note">
                 Здесь вы можете ознакомиться с примерами наших выполненных работ.
-                Чтобы увидеть больше, свяжитесь с нами!
+                Чтобы узнать больше, свяжитесь с нами!
             </p>
         </section>
 
