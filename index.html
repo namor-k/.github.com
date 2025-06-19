@@ -29,7 +29,7 @@
             scroll-behavior: smooth;
         }
 
-        /* Новые стили для отключения эффектов при просмотре фото */
+        /* Новый стиль для отключения эффектов при просмотре фото */
         body.image-viewer-active .gallery img:hover,
         body.image-viewer-active section:hover {
             transform: none;
@@ -139,7 +139,7 @@
         }
 
         .service-card {
-            background: var(--light-gray);
+            background: var(--light-bg);
             padding: 15px;
             border-radius: var(--border-radius-card);
             box-shadow: var(--shadow-light);
@@ -593,8 +593,11 @@
 
                 // Функция открытия просмотра
                 const openViewer = (e) => {
+                    // Копируем адрес картинки, по которой кликнули
                     viewerImage.src = e.target.src;
+                    // Показываем контейнер
                     imageViewer.classList.add('active');
+                    // Добавляем класс к body, чтобы отключить эффекты наведения на миниатюры
                     document.body.classList.add('image-viewer-active');
                 };
 
@@ -618,11 +621,18 @@
             // --- Скрипт для формы Telegram ---
             const form = document.getElementById('telegram-form');
             if (form) {
-                const botToken = '7581738679:AAFOfWXjuC1gxmt_YVu-MhKfASNfc0pU2z0';
+                // !!! ВАЖНО: Вставьте сюда ваш актуальный токен от @BotFather !!!
+                const botToken = 7581738679:AAFOfWXjuC1gxmt_YVu-MhKfASnfc0pU2z0;
+
                 const chatId = form.querySelector('input[name="chat_id"]').value;
 
                 form.addEventListener('submit', function(e) {
                     e.preventDefault();
+
+                    if (botToken === 7581738679:AAFOfWXjuC1gxmt_YVu-MhKfASnfc0pU2z0) {
+                        alert('Пожалуйста, укажите ваш токен Telegram-бота в коде сайта.');
+                        return;
+                    }
 
                     const name = form.querySelector('input[name="Имя"]').value;
                     const phone = form.querySelector('input[name="Телефон"]').value;
