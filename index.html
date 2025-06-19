@@ -125,13 +125,13 @@
             margin-bottom: 2em;
             background-color: black;
         }
-        .video-wrapper video { /* Этот селектор тоже не используется, так как нет .video-wrapper div */
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        
+        /* New styles to center video on desktop */
+        video {
+            display: block; /* Make it a block-level element */
+            margin: 0 auto; /* Center the block-level element horizontally */
+            max-width: 100%; /* Ensures it doesn't overflow its parent */
+            height: auto; /* Maintains aspect ratio */
         }
 
         /* Адаптивность для видео (прямое исправление для тега video) */
@@ -649,7 +649,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('telegram-form');
-            const botToken = '7581738679:AAFOfWXjuC1gxmt_YVu-MhKfASnfc0pU2z0';
+            const botToken = '7581738679:AAFOfWXjuC1gxmt_YVu-MhKfASNfc0pU2z0';
             const chatId = form.querySelector('input[name="chat_id"]').value;
 
             form.addEventListener('submit', function(e) {
