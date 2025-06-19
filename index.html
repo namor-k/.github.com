@@ -202,24 +202,46 @@
             object-fit: cover;
             border-radius: var(--border-radius-card);
             box-shadow: var(--shadow-light);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease;
             cursor: pointer;
         }
         
-        .gallery img.zoomed {
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- Новые стили для просмотра изображений --- */
+        #image-viewer {
+            display: none; /* Скрыт по умолчанию */
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: auto;
-            max-height: 90vh;
-            object-fit: contain;
-            z-index: 100;
-            box-shadow: var(--shadow-strong);
-            margin: auto;
-            display: block;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Легкий полупрозрачный фон */
+            z-index: 1000;
+            cursor: pointer;
+            padding: 5vh 5vw; /* Отступы от краев экрана */
+            box-sizing: border-box;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
+        #image-viewer.active {
+            display: block;
+            opacity: 1;
+        }
+
+        #image-viewer img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Вписывает картинку целиком */
+            box-shadow: var(--shadow-strong);
+            border-radius: var(--border-radius-card);
+        }
+        /* --- Конец новых стилей --- */
+        
         .gallery-note {
             text-align: center;
             font-style: italic;
@@ -366,9 +388,6 @@
                 gap: 8px;
                 padding: 0 8px;
             }
-            .gallery img.zoomed {
-                max-height: 80vh; /* Немного уменьшаем максимальную высоту на мобильных */
-            }
         }
 
         @media (max-width: 480px) {
@@ -397,9 +416,6 @@
             .service-card img {
                 width: 120px;
                 height: 120px;
-            }
-            .gallery img.zoomed {
-                max-height: 70vh; /* Ещё уменьшаем */
             }
         }
     </style>
@@ -511,8 +527,11 @@
                 <img src="11.jpg" alt="Фото выполненных работ 11">
                 <img src="12.jpg" alt="Фото выполненных работ 12">
             </div>
+            <div id="image-viewer">
+                <img src="" alt="Увеличенное изображение">
+            </div>
             <p class="gallery-note">
-                Кликните на изображение для просмотра во весь экран.
+                Кликните на изображение для увеличения.
             </p>
         </section>
 
@@ -556,55 +575,39 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- Скрипт для увеличения изображений в галерее ---
-            const galleryContainer = document.querySelector('.gallery');
+            // --- Новый скрипт для галереи ---
+            const galleryImages = document.querySelectorAll('.gallery img');
+            const imageViewer = document.getElementById('image-viewer');
+            
+            if (imageViewer) {
+                const viewerImage = imageViewer.querySelector('img');
 
-            if (galleryContainer) {
-                // Функция для удаления увеличения со всех картинок
-                const removeAllZoom = () => {
-                    document.querySelectorAll('.gallery img.zoomed').forEach(img => {
-                        img.classList.remove('zoomed');
+                galleryImages.forEach(image => {
+                    image.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        viewerImage.src = image.src;
+                        imageViewer.classList.add('active');
                     });
-                };
-
-                // Обработчик клика внутри галереи
-                galleryContainer.addEventListener('click', function(event) {
-                    if (event.target.tagName === 'IMG') {
-                        const clickedImage = event.target;
-                        const isAlreadyZoomed = clickedImage.classList.contains('zoomed');
-
-                        removeAllZoom(); // Сначала убираем увеличение с других (или этой же) картинок
-
-                        if (!isAlreadyZoomed) {
-                            clickedImage.classList.add('zoomed');
-                            document.body.style.overflow = 'hidden'; // Предотвращаем прокрутку фона
-                        } else {
-                            document.body.style.overflow = 'auto'; // Возвращаем прокрутку фона
-                        }
-                    }
                 });
 
-                // Обработчик клика по всему документу (кроме самой увеличенной картинки) для снятия увеличения
-                document.addEventListener('click', function(event) {
-                    if (!event.target.classList.contains('zoomed')) {
-                        removeAllZoom();
-                        document.body.style.overflow = 'auto'; // Возвращаем прокрутку фона
-                    }
+                imageViewer.addEventListener('click', () => {
+                    imageViewer.classList.remove('active');
                 });
             }
             // --- Конец скрипта для галереи ---
+
 
             // --- Скрипт для формы Telegram ---
             const form = document.getElementById('telegram-form');
             if (form) {
                 const botToken = '7581738679:AAFOfWXjuC1gxmt_YVu-MhKfASNfc0pU2z0';
-                const chatId = form.querySelector('inputpajka_trub_santehnika.pngame="chat_id"]').value;
+                const chatId = form.querySelector('input[name="chat_id"]').value;
 
                 form.addEventListener('submit', function(e) {
                     e.preventDefault();
 
-                    const name = form.querySelector('inputpajka_trub_santehnika.pngame="Имя"]').value;
-                    const phone = form.querySelector('inputpajka_trub_santehnika.pngame="Телефон"]').value;
+                    const name = form.querySelector('input[name="Имя"]').value;
+                    const phone = form.querySelector('input[name="Телефон"]').value;
                     const message = form.querySelector('textarea').value;
 
                     if (!name.trim() || !phone.trim() || !message.trim()) {
