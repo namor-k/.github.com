@@ -140,13 +140,12 @@
         /* Адаптивность для видео (прямое исправление для тега video), на всю ширину экрана телефона */
         @media (max-width: 768px) {
             video { /* Применяем стили напрямую к тегу video */
-                width: 100vw; /* Ширина 100% от viewport */
-                position: relative; /* Для позиционирования относительно viewport */
-                left: 50%; /* Смещаем начало в центр viewport */
-                transform: translateX(-50%); /* Смещаем элемент влево на половину его ширины, центрируя его и выводя за пределы родителя */
-                height: auto; /* Сохраняем пропорции видео */
+                width: calc(100% + 2em); /* Ширина 100% родительского main + 2em для компенсации его padding (1em с каждой стороны) */
+                margin-left: -1em; /* Смещаем влево на 1em, чтобы выйти за padding main */
+                margin-right: -1em; /* Смещаем вправо на 1em, чтобы выйти за padding main */
                 max-width: none; /* Убираем любые ограничения по максимальной ширине */
                 box-sizing: border-box; /* Учитываем padding и border в ширине */
+                height: auto; /* Сохраняем пропорции видео */
             }
         }
 
@@ -289,16 +288,16 @@
             }
 
             .gallery img:hover { /* Эффект увеличения для мобильных, как у видео */
-                width: 100vw; /* Занимает всю ширину экрана */
-                position: relative; /* Для позиционирования относительно viewport */
-                left: 50%; /* Смещаем начало в центр viewport */
-                transform: translateX(-50%); /* Смещаем элемент влево на половину его ширины, центрируя его и выводя за пределы родителя */
-                height: auto; /* Высота подстраивается под 16:9 (уже на базовом img) */
-                max-width: none; /* Убираем любые ограничения по максимальной ширине */
+                width: calc(100% + 2em); /* Занимает всю ширину родительского main */
+                margin-left: -1em; /* Смещаем влево для выхода за padding main */
+                margin-right: -1em; /* Смещаем вправо для выхода за padding main */
+                height: auto; /* Высота подстраивается под 16:9 */
+                max-width: none; /* Убираем ограничения */
                 box-shadow: var(--shadow-strong);
                 z-index: 10;
-                /* object-fit: cover; остается от базового .gallery img */
-                transition: all 0.3s ease; /* Плавный переход для всех свойств */
+                position: relative; /* Важно для z-index */
+                transform: none; /* Отключаем предыдущее масштабирование */
+                transition: all 0.3s ease; /* Плавный переход */
             }
         }
 
