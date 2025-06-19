@@ -29,6 +29,11 @@
             scroll-behavior: smooth;
         }
 
+        /* Новый стиль для отключения эффектов при просмотре фото */
+        body.image-viewer-active .gallery img:hover {
+            transform: none;
+        }
+
         header {
             background: var(--primary-color);
             color: white;
@@ -205,43 +210,47 @@
             transition: transform 0.3s ease;
             cursor: pointer;
         }
-
+        
         .gallery img:hover {
             transform: scale(1.05);
         }
 
-        /* --- Стили для просмотра изображений --- */
+        /* --- Финальные стили для просмотра изображений БЕЗ ФОНА --- */
         #image-viewer {
-            display: none; /* Скрыт по умолчанию */
+            display: flex; /* Используем flex для центрирования */
+            justify-content: center;
+            align-items: center;
+            
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            
             z-index: 1000;
             cursor: pointer;
+            
+            /* Плавное появление/исчезновение */
             opacity: 0;
-            transition: opacity 0.3s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
         #image-viewer.active {
-            display: flex;
             opacity: 1;
+            visibility: visible;
         }
 
         #image-viewer img {
             display: block;
-            max-width: 90vw;
-            max-height: 90vh;
-            object-fit: contain; /* Вписывает картинку целиком */
+            max-width: 90vw;   /* 90% ширины экрана */
+            max-height: 90vh; /* 90% высоты экрана */
+            object-fit: contain;
             box-shadow: var(--shadow-strong);
             border-radius: var(--border-radius-card);
+            cursor: default; /* Обычный курсор для самой картинки */
         }
-        /* --- Конец стилей для просмотра изображений --- */
-
+        
         .gallery-note {
             text-align: center;
             font-style: italic;
@@ -388,10 +397,6 @@
                 gap: 8px;
                 padding: 0 8px;
             }
-            #image-viewer img {
-                max-width: 95vw;
-                max-height: 85vh;
-            }
         }
 
         @media (max-width: 480px) {
@@ -420,10 +425,6 @@
             .service-card img {
                 width: 120px;
                 height: 120px;
-            }
-            #image-viewer img {
-                max-width: 98vw;
-                max-height: 80vh;
             }
         }
     </style>
@@ -583,33 +584,36 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- Скрипт для галереи ---
+            // --- Финальный скрипт для галереи ---
             const galleryImages = document.querySelectorAll('.gallery img');
             const imageViewer = document.getElementById('image-viewer');
-
+            
             if (imageViewer) {
                 const viewerImage = imageViewer.querySelector('img');
 
-                galleryImages.forEach(image => {
-                    image.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        viewerImage.src = image.src;
-                        imageViewer.classList.add('active');
-                    });
-                });
+                // Функция открытия просмотра
+                const openViewer = (e) => {
+                    // Копируем адрес картинки, по которой кликнули
+                    viewerImage.src = e.target.src;
+                    // Показываем контейнер
+                    imageViewer.classList.add('active');
+                    // Добавляем класс к body, чтобы отключить эффекты наведения на миниатюры
+                    document.body.classList.add('image-viewer-active');
+                };
 
-                // Закрытие по клику на контейнер (но не на саму картинку)
-                imageViewer.addEventListener('click', (e) => {
-                    if (e.target === imageViewer) {
-                        imageViewer.classList.remove('active');
-                    }
-                });
-
-                // Закрытие по повторному клику на саму картинку
-                viewerImage.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Предотвращаем закрытие по клику на контейнер
+                // Функция закрытия просмотра
+                const closeViewer = () => {
                     imageViewer.classList.remove('active');
+                    document.body.classList.remove('image-viewer-active');
+                };
+
+                // Навешиваем обработчик на каждую миниатюру
+                galleryImages.forEach(image => {
+                    image.addEventListener('click', openViewer);
                 });
+
+                // Закрываем по клику на контейнер (пустое место) или на саму увеличенную картинку
+                imageViewer.addEventListener('click', closeViewer);
             }
             // --- Конец скрипта для галереи ---
 
@@ -618,13 +622,13 @@
             const form = document.getElementById('telegram-form');
             if (form) {
                 const botToken = '7581738679:AAFOfWXjuC1gxmt_YVu-MhKfASNfc0pU2z0';
-                const chatId = form.querySelector('inputpajka_trub_santehnika.pngame="chat_id"]').value;
+                const chatId = form.querySelector('input[name="chat_id"]').value;
 
                 form.addEventListener('submit', function(e) {
                     e.preventDefault();
 
-                    const name = form.querySelector('inputpajka_trub_santehnika.pngame="Имя"]').value;
-                    const phone = form.querySelector('inputpajka_trub_santehnika.pngame="Телефон"]').value;
+                    const name = form.querySelector('input[name="Имя"]').value;
+                    const phone = form.querySelector('input[name="Телефон"]').value;
                     const message = form.querySelector('textarea').value;
 
                     if (!name.trim() || !phone.trim() || !message.trim()) {
