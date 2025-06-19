@@ -360,7 +360,7 @@
                 padding: 0 8px;
             }
             .gallery img.zoomed {
-                transform: scale(2); /* Уменьшаем масштаб на мобильных */
+                transform: scale(2.5); /* Уменьшаем масштаб на мобильных */
             }
         }
 
@@ -392,7 +392,7 @@
                 height: 120px;
             }
             .gallery img.zoomed {
-                transform: scale(1.5); /* Еще меньше масштаб на маленьких экранах */
+                transform: scale(2); /* Еще меньше масштаб на маленьких экранах */
             }
         }
     </style>
@@ -550,27 +550,41 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // --- Скрипт для увеличения изображений в галерее ---
-            const galleryImages = document.querySelectorAll('.gallery img');
-            
-            function removeAllZoom() {
-                galleryImages.forEach(img => {
-                    img.classList.remove('zoomed');
-                });
-            }
+            const galleryContainer = document.querySelector('.gallery');
 
-            galleryImages.forEach(image => {
-                image.addEventListener('click', function(event) {
-                    event.stopPropagation();
-                    const isAlreadyZoomed = this.classList.contains('zoomed');
-                    removeAllZoom();
-                    if (!isAlreadyZoomed) {
-                        this.classList.add('zoomed');
+            if (galleryContainer) {
+                // Функция для удаления увеличения со всех картинок
+                const removeAllZoom = () => {
+                    document.querySelectorAll('.gallery img.zoomed').forEach(img => {
+                        img.classList.remove('zoomed');
+                    });
+                };
+
+                // Обработчик клика внутри галереи
+                galleryContainer.addEventListener('click', function(event) {
+                    if (event.target.tagName === 'IMG') {
+                        event.stopPropagation(); // Останавливаем всплытие, чтобы не сработал клик по документу
+                        
+                        const clickedImage = event.target;
+                        const isAlreadyZoomed = clickedImage.classList.contains('zoomed');
+
+                        // Сначала убираем увеличение с других картинок
+                        removeAllZoom();
+
+                        // Если картинка не была увеличена, увеличиваем ее
+                        if (!isAlreadyZoomed) {
+                            clickedImage.classList.add('zoomed');
+                        }
+                        // Если она уже была увеличена, то removeAllZoom() выше уже убрал класс,
+                        // и мы ничего больше не делаем, реализуя "выключение" по второму клику.
                     }
                 });
-            });
 
-            document.addEventListener('click', removeAllZoom);
+                // Обработчик клика по всему документу для снятия увеличения
+                document.addEventListener('click', removeAllZoom);
+            }
             // --- Конец скрипта для галереи ---
+
 
             // --- Скрипт для формы Telegram ---
             const form = document.getElementById('telegram-form');
