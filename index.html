@@ -62,7 +62,7 @@
             background: var(--white-bg);
             padding: 3em;
             margin-bottom: 40px;
-            border-radius: var(--border-radius-card);
+            border-radius: 0; /* Убрал скругление углов для эффекта полной ширины */
             box-shadow: var(--shadow-light);
             transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
         }
@@ -123,12 +123,12 @@
 
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* Постоянно 4 колонки */
-            gap: 20px; /* Уменьшил расстояние между карточками */
-            justify-content: center; /* Центрирование элементов сетки */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            justify-content: center;
             margin: 2em auto 0 auto;
             width: 100%;
-            box-sizing: border-box; /* Учитываем padding */
+            box-sizing: border-box;
         }
 
         .service-card {
@@ -188,93 +188,34 @@
 
         .gallery {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 колонки в ряд */
-            gap: 15px; /* Отступ между фото */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
             margin-top: 2em;
-            max-width: 100%; /* Использовать всю доступную ширину родителя */
+            max-width: 100%;
             margin-left: auto;
             margin-right: auto;
-            box-sizing: border-box; /* Учитываем padding в ширине */
-        }
-        /* Адаптивность для галереи */
-        @media (max-width: 1200px) { /* На экранах до 1200px, 3 колонки (по умолчанию) */
-            .gallery {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-        @media (max-width: 992px) { /* На планшетах, 2 колонки */
-            .gallery {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        @media (max-width: 768px) { /* На мобильных, 1 колонка */
-            .gallery {
-                grid-template-columns: 1fr;
-            }
+            box-sizing: border-box;
         }
 
         .gallery img {
             width: 100%;
-            height: 200px; /* Сохраняем высоту */
-            aspect-ratio: 1 / 1; /* Квадратные изображения */
+            height: 250px;
+            aspect-ratio: 1 / 1;
             object-fit: cover;
             border-radius: var(--border-radius-card);
             box-shadow: var(--shadow-light);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: zoom-in;
-            transform: scale(1); /* Начальное состояние */
+            transform: scale(1);
         }
 
         .gallery img:hover {
-            transform: scale(2); /* Увеличиваем на 100% (то есть в 2 раза) */
+            transform: scale(1.5);
             box-shadow: var(--shadow-strong);
             z-index: 10;
             position: relative;
         }
-
-        /* Медиа-запросы для галереи, чтобы уменьшить увеличение на меньших экранах */
-        /* На 1600px и шире, если есть 3 колонки, увеличение 2.0 (100%) */
-        @media (min-width: 1600px) {
-            .gallery {
-                grid-template-columns: repeat(3, 1fr); /* Позволяет 3 колонки на больших экранах */
-                max-width: 1000px; /* Ограничиваем ширину галереи, чтобы картинки не были слишком большими */
-            }
-            .gallery img:hover {
-                transform: scale(2); /* Увеличение до 100% */
-            }
-        }
-        /* На 1200px и шире, если есть 3 колонки, увеличение 2.0 (100%) */
-        @media (min-width: 1200px) and (max-width: 1599px) {
-            .gallery img:hover {
-                transform: scale(2); /* Увеличение до 100% */
-            }
-        }
-        /* На 992px и шире, если есть 2 колонки, увеличение 2.0 (100%) */
-        @media (min-width: 992px) and (max-width: 1199px) {
-            .gallery img:hover {
-                transform: scale(2); /* Увеличение до 100% */
-            }
-        }
-        /* На 768px и шире, если есть 2 колонки, увеличение 2.5 (150%) */
-        @media (min-width: 768px) and (max-width: 991px) {
-            .gallery img:hover {
-                transform: scale(2.5); /* Немного уменьшаем увеличение на планшетах */
-            }
-        }
-        /* На 480px и шире, если есть 1 колонка, увеличение 2.0 (100%) */
-        @media (min-width: 480px) and (max-width: 767px) {
-            .gallery img:hover {
-                transform: scale(2.5); /* На мобильных с 2 колонками */
-            }
-        }
-        /* На самых маленьких экранах, 1 колонка, увеличение 2.0 (100%) */
-        @media (max-width: 479px) {
-            .gallery img:hover {
-                transform: scale(2); /* Увеличение 100% на самых маленьких */
-            }
-        }
-
-
+        
         .gallery-note {
             text-align: center;
             font-style: italic;
@@ -382,13 +323,6 @@
         }
 
         /* Адаптивность */
-        @media (max-width: 992px) {
-            .services-grid {
-                grid-template-columns: repeat(3, 1fr); /* 3 колонки на планшетах */
-                gap: 20px;
-            }
-        }
-
         @media (max-width: 768px) {
             header h1 {
                 font-size: 2.5em;
@@ -418,17 +352,8 @@
                 width: 80px;
                 height: 2px;
             }
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr); /* 2 колонки на мобильных (пошире) */
-                gap: 15px;
-            }
-            .gallery {
-                grid-template-columns: repeat(2, 1fr); /* 2 колонки на мобильных */
-                gap: 10px;
-                padding: 5px; /* Уменьшаем padding на маленьких экранах */
-            }
             .service-card img {
-                width: 140px; /* Уменьшил размер для планшетов */
+                width: 140px;
                 height: 140px;
                 border-radius: 6px;
             }
@@ -444,20 +369,21 @@
             section {
                 padding: 1.5em;
             }
+             #welcome {
+                padding-top: 1.5em;
+                padding-bottom: 1.5em;
+                padding-left: 0;
+                padding-right: 0;
+            }
             #welcome h2, #welcome .welcome-content {
                 padding-left: 1.5em;
                 padding-right: 1.5em;
-            }
-            .services-grid, .gallery {
-                grid-template-columns: 1fr; /* В один столбец на очень маленьких экранах */
-                gap: 10px;
-                padding: 0; /* Убираем padding на очень маленьких экранах */
             }
             .service-card h3 {
                 font-size: 1.3em;
             }
             .service-card img {
-                width: 120px; /* Уменьшил размер для телефонов */
+                width: 120px;
                 height: 120px;
             }
         }
