@@ -17,7 +17,6 @@
             --shadow-strong: 0 12px 24px rgba(0,0,0,0.2);
             --border-radius-card: 10px;
             --form-border-color: #99aab5;
-            --overlay-bg: rgba(0, 0, 0, 0.8); /* Фон затемнения */
         }
 
         body {
@@ -95,7 +94,6 @@
             border-radius: 2px;
         }
 
-        /* Стили для секции с видео */
         #welcome {
             padding-left: 0;
             padding-right: 0;
@@ -151,7 +149,6 @@
             background: #e0e5e9;
         }
 
-        /* Стиль для изображений услуг */
         .service-card img {
             width: 100%;
             max-width: 180px;
@@ -189,7 +186,7 @@
 
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Уменьшенные превью */
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 10px;
             margin-top: 2em;
             max-width: 100%;
@@ -208,33 +205,12 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
         }
-
-        /* Стили для оверлея и увеличенного изображения */
-        .image-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--overlay-bg);
+        
+        .gallery img.zoomed {
+            transform: scale(3);
+            position: relative;
             z-index: 20;
-            justify-content: center;
-            align-items: center;
-            overflow: auto; /* Для больших изображений */
-        }
-
-        .image-overlay img {
-            display: block;
-            max-width: 90%; /* Чтобы не выходило за края экрана */
-            max-height: 90%;
-            margin: auto; /* Центрирование */
-            border-radius: var(--border-radius-card);
             box-shadow: var(--shadow-strong);
-        }
-
-        .image-overlay.active {
-            display: flex;
         }
 
         .gallery-note {
@@ -379,9 +355,12 @@
                 border-radius: 6px;
             }
             .gallery {
-                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Ещё меньше на мобильных */
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
                 gap: 8px;
                 padding: 0 8px;
+            }
+            .gallery img.zoomed {
+                transform: scale(2); /* Уменьшаем масштаб на мобильных */
             }
         }
 
@@ -411,6 +390,9 @@
             .service-card img {
                 width: 120px;
                 height: 120px;
+            }
+            .gallery img.zoomed {
+                transform: scale(1.5); /* Еще меньше масштаб на маленьких экранах */
             }
         }
     </style>
@@ -522,12 +504,8 @@
                 <img src="11.jpg" alt="Фото выполненных работ 11">
                 <img src="12.jpg" alt="Фото выполненных работ 12">
             </div>
-            <div class="image-overlay">
-                <img src="" alt="Увеличенное изображение">
-            </div>
             <p class="gallery-note">
-                Здесь вы можете ознакомиться с примерами наших выполненных работ.
-                Кликните на изображение, чтобы увеличить.
+                Кликните на изображение для увеличения.
             </p>
         </section>
 
@@ -571,59 +549,61 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const gallery = document.querySelector('.gallery');
-            const overlay = document.querySelector('.image-overlay');
-            const overlayImage = overlay.querySelector('img');
-
-            if (gallery && overlay && overlayImage) {
-                gallery.addEventListener('click', function(event) {
-                    if (event.target.tagName === 'IMG') {
-                        const imageUrl = event.target.src;
-                        overlayImage.src = imageUrl;
-                        overlay.classList.add('active');
-                        // Добавляем обработчик клика для закрытия по оверлею
-                        overlay.addEventListener('click', closeOverlay);
-                    }
+            // --- Скрипт для увеличения изображений в галерее ---
+            const galleryImages = document.querySelectorAll('.gallery img');
+            
+            function removeAllZoom() {
+                galleryImages.forEach(img => {
+                    img.classList.remove('zoomed');
                 });
-
-                // Функция закрытия оверлея
-                function closeOverlay(event) {
-                    if (event.target === overlay) { // Закрываем только при клике на фон
-                        overlay.classList.remove('active');
-                        overlay.removeEventListener('click', closeOverlay); // Удаляем обработчик
-                    }
-                }
             }
 
-            const form = document.getElementById('telegram-form');
-            const botToken = '7581738679:AAFOfWXjuC1gxmt_YVu-MhKfASNfc0pU2z0';
-            const chatId = form.querySelector('inputpajka_trub_santehnika.pngame="chat_id"]').value;
-
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                const name = form.querySelector('inputpajka_trub_santehnika.pngame="Имя"]').value;
-                const phone = form.querySelector('inputpajka_trub_santehnika.pngame="Телефон"]').value;
-                const message = form.querySelector('textarea').value;
-
-                if (!name.trim() || !phone.trim() || !message.trim()) {
-                    alert('Пожалуйста, заполните все обязательные поля: Имя, Телефон и Сообщение.');
-                    return;
-                }
-
-                const fullTelegramMessage = `НОВАЯ ЗАЯВКА С САЙТА:\n` +
-                                            `Имя: ${name}\n` +
-                                            `Телефон: ${phone}\n` +
-                                            `Сообщение: ${message}`;
-
-                const encodedMessage = encodeURIComponent(fullTelegramMessage);
-                const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodedMessage}`;
-
-                window.open(telegramApiUrl, '_blank');
-
-                alert('Ваша заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.');
-                form.reset();
+            galleryImages.forEach(image => {
+                image.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    const isAlreadyZoomed = this.classList.contains('zoomed');
+                    removeAllZoom();
+                    if (!isAlreadyZoomed) {
+                        this.classList.add('zoomed');
+                    }
+                });
             });
+
+            document.addEventListener('click', removeAllZoom);
+            // --- Конец скрипта для галереи ---
+
+            // --- Скрипт для формы Telegram ---
+            const form = document.getElementById('telegram-form');
+            if (form) {
+                const botToken = '7581738679:AAFOfWXjuC1gxmt_YVu-MhKfASNfc0pU2z0';
+                const chatId = form.querySelector('input[name="chat_id"]').value;
+
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const name = form.querySelector('input[name="Имя"]').value;
+                    const phone = form.querySelector('input[name="Телефон"]').value;
+                    const message = form.querySelector('textarea').value;
+
+                    if (!name.trim() || !phone.trim() || !message.trim()) {
+                        alert('Пожалуйста, заполните все обязательные поля: Имя, Телефон и Сообщение.');
+                        return;
+                    }
+
+                    const fullTelegramMessage = `НОВАЯ ЗАЯВКА С САЙТА:\n` +
+                                                `Имя: ${name}\n` +
+                                                `Телефон: ${phone}\n` +
+                                                `Сообщение: ${message}`;
+
+                    const encodedMessage = encodeURIComponent(fullTelegramMessage);
+                    const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodedMessage}`;
+
+                    window.open(telegramApiUrl, '_blank');
+
+                    alert('Ваша заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.');
+                    form.reset();
+                });
+            }
         });
     </script>
 </body>
