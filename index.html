@@ -207,10 +207,17 @@
         }
         
         .gallery img.zoomed {
-            transform: scale(3);
-            position: relative;
-            z-index: 20;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: auto;
+            max-height: 90vh;
+            object-fit: contain;
+            z-index: 100;
             box-shadow: var(--shadow-strong);
+            margin: auto;
+            display: block;
         }
 
         .gallery-note {
@@ -360,7 +367,7 @@
                 padding: 0 8px;
             }
             .gallery img.zoomed {
-                transform: scale(2.5); /* Масштаб на мобильных */
+                max-height: 80vh; /* Немного уменьшаем максимальную высоту на мобильных */
             }
         }
 
@@ -392,7 +399,7 @@
                 height: 120px;
             }
             .gallery img.zoomed {
-                transform: scale(2); /* Масштаб на маленьких экранах */
+                max-height: 70vh; /* Ещё уменьшаем */
             }
         }
     </style>
@@ -505,7 +512,7 @@
                 <img src="12.jpg" alt="Фото выполненных работ 12">
             </div>
             <p class="gallery-note">
-                Кликните на изображение для увеличения.
+                Кликните на изображение для просмотра во весь экран.
             </p>
         </section>
 
@@ -563,40 +570,41 @@
                 // Обработчик клика внутри галереи
                 galleryContainer.addEventListener('click', function(event) {
                     if (event.target.tagName === 'IMG') {
-                        event.stopPropagation(); // Останавливаем всплытие, чтобы не сработал клик по документу
-                        
                         const clickedImage = event.target;
                         const isAlreadyZoomed = clickedImage.classList.contains('zoomed');
 
-                        // Сначала убираем увеличение с других картинок (если они есть)
-                        removeAllZoom();
+                        removeAllZoom(); // Сначала убираем увеличение с других (или этой же) картинок
 
-                        // Если картинка не была увеличена, то теперь увеличиваем ее
                         if (!isAlreadyZoomed) {
                             clickedImage.classList.add('zoomed');
+                            document.body.style.overflow = 'hidden'; // Предотвращаем прокрутку фона
+                        } else {
+                            document.body.style.overflow = 'auto'; // Возвращаем прокрутку фона
                         }
-                        // Если она УЖЕ была увеличена, то removeAllZoom() выше уже убрал класс,
-                        // и мы ничего больше не делаем. Это и есть логика "выключения" по второму клику.
                     }
                 });
 
-                // Обработчик клика по всему документу для снятия увеличения
-                document.addEventListener('click', removeAllZoom);
+                // Обработчик клика по всему документу (кроме самой увеличенной картинки) для снятия увеличения
+                document.addEventListener('click', function(event) {
+                    if (!event.target.classList.contains('zoomed')) {
+                        removeAllZoom();
+                        document.body.style.overflow = 'auto'; // Возвращаем прокрутку фона
+                    }
+                });
             }
             // --- Конец скрипта для галереи ---
-
 
             // --- Скрипт для формы Telegram ---
             const form = document.getElementById('telegram-form');
             if (form) {
                 const botToken = '7581738679:AAFOfWXjuC1gxmt_YVu-MhKfASNfc0pU2z0';
-                const chatId = form.querySelector('input[name="chat_id"]').value;
+                const chatId = form.querySelector('inputpajka_trub_santehnika.pngame="chat_id"]').value;
 
                 form.addEventListener('submit', function(e) {
                     e.preventDefault();
 
-                    const name = form.querySelector('input[name="Имя"]').value;
-                    const phone = form.querySelector('input[name="Телефон"]').value;
+                    const name = form.querySelector('inputpajka_trub_santehnika.pngame="Имя"]').value;
+                    const phone = form.querySelector('inputpajka_trub_santehnika.pngame="Телефон"]').value;
                     const message = form.querySelector('textarea').value;
 
                     if (!name.trim() || !phone.trim() || !message.trim()) {
