@@ -126,26 +126,22 @@
             background-color: black;
         }
         
-        /* Styles to make video wider on desktop, filling the section's background area */
+        /* New styles to center video on desktop */
         video {
-            display: block;
-            width: calc(100% + 6em); /* 100% of parent's content width + 2 * section's padding (3em) */
-            margin-left: -3em; /* Pull to the left edge of the section background */
-            margin-right: -3em; /* Pull to the right edge of the section background */
-            height: auto;
-            max-width: none; /* Allow it to be wider than its direct parent's content box */
-            box-sizing: border-box; /* Crucial for calc to work as expected */
+            display: block; /* Make it a block-level element */
+            margin: 0 auto; /* Center the block-level element horizontally */
+            max-width: 100%; /* Ensures it doesn't overflow its parent */
+            height: auto; /* Maintains aspect ratio */
         }
 
-        /* Адаптивность для видео (прямое исправление для тега video), на всю ширину экрана телефона */
+        /* Адаптивность для видео (прямое исправление для тега video) */
         @media (max-width: 768px) {
-            video { /* Применяем стили напрямую к тегу video */
-                width: calc(100% + 2em); /* Ширина 100% родительского main + 2em для компенсации его padding (1em с каждой стороны) */
-                margin-left: -1em; /* Смещаем влево на 1em, чтобы выйти за padding main */
-                margin-right: -1em; /* Смещаем вправо на 1em, чтобы выйти за padding main */
-                max-width: none; /* Убираем любые ограничения по максимальной ширине */
-                box-sizing: border-box; /* Учитываем padding и border в ширине */
-                height: auto; /* Сохраняем пропорции видео */
+            video { /* Применяем стили напрямую к тегу video*/
+                width: 100%; /* Занимает 100% ширины родителя */
+                margin-left: -1em; /* Компенсируем padding main, чтобы видео было до края экрана*/
+                margin-right: -1em; /* Компенсируем padding main*/
+                max-width: calc(100% + 2em); /* Расширяем, чтобы перекрыть padding*/
+                box-sizing: border-box; /* Учитываем padding в ширине*/
             }
         }
 
@@ -215,89 +211,262 @@
             line-height: 1.4;
         }
 
-        /* Default gallery img styles */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 колонки в ряд */
+            gap: 15px; /* Отступ между фото */
+            margin-top: 2em;
+            max-width: 100%; /* Использовать всю доступную ширину родителя */
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 15px; /* Внутренние отступы для защиты от выхода за края */
+            box-sizing: border-box; /* Учитываем padding в ширине */
+        }
+        /* Адаптивность для галереи */
+        @media (max-width: 1200px) { /* На экранах до 1200px, 3 колонки (по умолчанию) */
+            .gallery {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (max-width: 992px) { /* На планшетах, 2 колонки */
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 768px) { /* На мобильных, 1 колонка */
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .gallery img {
             width: 100%;
-            height: 200px; /* Default height */
-            aspect-ratio: 1 / 1; /* Default square aspect ratio */
+            height: 200px; /* Сохраняем высоту */
+            aspect-ratio: 1 / 1; /* Квадратные изображения */
             object-fit: cover;
             border-radius: var(--border-radius-card);
             box-shadow: var(--shadow-light);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: zoom-in;
-            transform: scale(1); /* Initial state */
+            transform: scale(1); /* Начальное состояние */
         }
 
-        /* Desktop specific styles for gallery images */
-        @media (min-width: 769px) { /* For desktop and larger screens */
+        .gallery img:hover {
+            transform: scale(2); /* Увеличиваем на 100% (то есть в 2 раза) */
+            box-shadow: var(--shadow-strong);
+            z-index: 10;
+            position: relative;
+        }
+
+        /* Медиа-запросы для галереи, чтобы уменьшить увеличение на меньших экранах */
+        /* На 1600px и шире, если есть 3 колонки, увеличение 2.0 (100%) */
+        @media (min-width: 1600px) {
             .gallery {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr); /* 3 колонки в ряд */
-                gap: 15px; /* Отступ между фото */
-                margin-top: 2em;
-                max-width: 100%; /* Использовать всю доступную ширину родителя */
-                margin-left: auto;
-                margin-right: auto;
-                padding: 0 15px; /* Внутренние отступы для защиты от выхода за края */
-                box-sizing: border-box; /* Учитываем padding в ширине */
-            }
-            .gallery img {
-                height: 200px; /* Ensure fixed height on desktop */
-                aspect-ratio: 1 / 1; /* Ensure square aspect ratio on desktop */
+                grid-template-columns: repeat(3, 1fr); /* Позволяет 3 колонки на больших экранах */
+                max-width: 1000px; /* Ограничиваем ширину галереи, чтобы картинки не были слишком большими */
             }
             .gallery img:hover {
-                transform: scale(2); /* Keep desktop zoom */
-                box-shadow: var(--shadow-strong);
-                z-index: 10;
-                position: relative;
+                transform: scale(2); /* Увеличение до 100% */
             }
-            /* Consolidate larger screen rules */
-            @media (min-width: 1600px) {
-                .gallery {
-                    grid-template-columns: repeat(3, 1fr);
-                    max-width: 1000px;
-                }
-                .gallery img:hover {
-                    transform: scale(2);
-                }
+        }
+        /* На 1200px и шире, если есть 3 колонки, увеличение 2.0 (100%) */
+        @media (min-width: 1200px) and (max-width: 1599px) {
+            .gallery img:hover {
+                transform: scale(2); /* Увеличение до 100% */
             }
-            @media (min-width: 1200px) and (max-width: 1599px) {
-                .gallery img:hover {
-                    transform: scale(2);
-                }
+        }
+        /* На 992px и шире, если есть 2 колонки, увеличение 2.0 (100%) */
+        @media (min-width: 992px) and (max-width: 1199px) {
+            .gallery img:hover {
+                transform: scale(2); /* Увеличение до 100% */
             }
-            @media (min-width: 992px) and (max-width: 1199px) {
-                .gallery img:hover {
-                    transform: scale(2);
-                }
+        }
+        /* На 768px и шире, если есть 2 колонки, увеличение 2.5 (150%) */
+        @media (min-width: 768px) and (max-width: 991px) {
+            .gallery img:hover {
+                transform: scale(2.5); /* Немного уменьшаем увеличение на планшетах */
+            }
+        }
+        /* На 480px и шире, если есть 1 колонка, увеличение 2.0 (100%) */
+        @media (min-width: 480px) and (max-width: 767px) {
+            .gallery img:hover {
+                transform: scale(2.5); /* На мобильных с 2 колонками */
+            }
+        }
+        /* На самых маленьких экранах, 1 колонка, увеличение 2.0 (100%) */
+        @media (max-width: 479px) {
+            .gallery img:hover {
+                transform: scale(2); /* Увеличение 100% на самых маленьких */
             }
         }
 
-        /* Медиа-запросы для галереи: изменения для мобильных устройств */
-        /* Применяются к устройствам с шириной до 768px включительно */
-        @media (max-width: 768px) {
-            .gallery {
-                grid-template-columns: 1fr; /* В один столбец на мобильных */
-                gap: 10px;
-                padding: 5px;
-            }
-            .gallery img { /* Все изображения галереи на мобильных */
-                height: auto; /* Высота автоматически подстраивается */
-                aspect-ratio: 16 / 9; /* Постоянный формат 16:9 для всех изображений */
-                object-fit: cover; /* Изображение будет обрезать, чтобы заполнить формат */
-            }
 
-            .gallery img:hover { /* Эффект увеличения для мобильных, как у видео */
-                width: calc(100% + 2em); /* Занимает всю ширину родительского main */
-                margin-left: -1em; /* Смещаем влево для выхода за padding main */
-                margin-right: -1em; /* Смещаем вправо для выхода за padding main */
-                height: auto; /* Высота подстраивается под 16:9 */
-                max-width: none; /* Убираем ограничения */
-                box-shadow: var(--shadow-strong);
-                z-index: 10;
-                position: relative; /* Важно для z-index */
-                transform: none; /* Отключаем предыдущее масштабирование */
-                transition: all 0.3s ease; /* Плавный переход */
+        .gallery-note {
+            text-align: center;
+            font-style: italic;
+            color: #6c757d;
+            margin-top: 1.5em;
+            font-size: 0.9em;
+        }
+
+        .contact-info-text {
+            text-align: center;
+            font-size: 1.1em;
+            margin-bottom: 1.5em;
+        }
+
+        .telegram-button {
+            display: inline-block;
+            background: #0088cc; /* Цвет Telegram */
+            color: white;
+            padding: 15px 30px;
+            border-radius: var(--border-radius-card);
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: var(--shadow-medium);
+            margin-top: 1em;
+        }
+
+        .telegram-button:hover {
+            background: #0077b3; /* Чуть темнее при наведении */
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-strong);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 2em;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        form label {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        form input:where([type="text"],[type="email"],[type="tel"]),
+        form textarea {
+            width: 100%;
+            min-height: 120px; /* Увеличена минимальная высота для видимости */
+            resize: vertical;
+            padding: 12px;
+            border: 1px solid var(--form-border-color); /* Используем новую переменную для цвета рамки */
+            border-radius: var(--border-radius-card);
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1em;
+            background: var(--white-bg);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.03);
+        }
+
+        form button {
+            background: var(--secondary-color);
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: var(--border-radius-card);
+            cursor: pointer;
+            font-size: 1.2em;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: var(--shadow-medium);
+            align-self: center;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        form button:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-strong);
+        }
+
+        .form-note {
+            text-align: center;
+            font-size: 0.85em;
+            color: #6c757d;
+            margin-top: 1em;
+        }
+
+        footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5em;
+            margin-top: 50px;
+            font-size: 0.9em;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            main {
+                max-width: 90%;
+            }
+            section:nth-child(odd),
+            section:nth-child(even) {
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 90%;
+            }
+            .services-grid {
+                grid-template-columns: repeat(3, 1fr); /* 3 колонки на планшетах */
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+            header p {
+                font-size: 1em;
+            }
+            main {
+                padding: 0 1em;
+            }
+            section {
+                padding: 2em;
+                margin-bottom: 25px;
+            }
+            section h2 {
+                font-size: 2.2em;
+                padding-bottom: 10px;
+            }
+            section h2::after {
+                width: 80px;
+                height: 2px;
+            }
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 колонки на мобильных (пошире) */
+                gap: 15px;
+            }
+            .gallery {
+                grid-template-columns: repeat(2, 1fr); /* 2 колонки на мобильных */
+                gap: 10px;
+                padding: 5px; /* Уменьшаем padding на маленьких экранах */
+            }
+            .service-card img {
+                width: 140px; /* Уменьшил размер для планшетов */
+                height: 140px;
+                border-radius: 6px;
+            }
+            /* ИСПРАВЛЕНИЕ: Видео не будет смещаться */
+            video { /* Применяем стили напрямую к тегу video */
+                width: calc(100% + 2em); /* Расширяем, чтобы перекрыть padding main (1em с каждой стороны) */
+                margin-left: -1em; /* Смещаем влево на 1em */
+                margin-right: -1em; /* Смещаем вправо на 1em */
+                max-width: none; /* Убираем ограничение max-width: 100% родителя */
+                box-sizing: border-box; /* Важно: чтобы padding и border не добавлялись к общей ширине */
             }
         }
 
@@ -311,7 +480,7 @@
             section {
                 padding: 1.5em;
             }
-            .services-grid {
+            .services-grid, .gallery {
                 grid-template-columns: 1fr; /* В один столбец на очень маленьких экранах */
                 gap: 10px;
                 padding: 0; /* Убираем padding на очень маленьких экранах */
@@ -480,7 +649,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('telegram-form');
-            const botToken = '7581738679:AAFOfWXjuC1gxmt_YVu-MhKfASnfc0pU2z0';
+            const botToken = '7581738679:AAFOfWXjuC1gxmt_YVu-MhKfASNfc0pU2z0';
             const chatId = form.querySelector('input[name="chat_id"]').value;
 
             form.addEventListener('submit', function(e) {
