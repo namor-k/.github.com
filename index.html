@@ -255,76 +255,39 @@
         }
 
         .gallery img:hover {
-            /* For desktop, keep the existing behavior */
+            /* Для десктопа сохраняем существующее поведение масштабирования */
             transform: scale(2); /* Увеличиваем на 100% (то есть в 2 раза) */
             box-shadow: var(--shadow-strong);
             z-index: 10;
             position: relative;
         }
 
-        /* Медиа-запросы для галереи, чтобы уменьшить увеличение на меньших экранах */
-        /* На 1600px и шире, если есть 3 колонки, увеличение 2.0 (100%) */
-        @media (min-width: 1600px) {
-            .gallery {
-                grid-template-columns: repeat(3, 1fr); /* Позволяет 3 колонки на больших экранах */
-                max-width: 1000px; /* Ограничиваем ширину галереи, чтобы картинки не были слишком большими */
+        /* Медиа-запросы для галереи: изменения для мобильных устройств */
+        /* Применяются к устройствам с шириной до 768px включительно */
+        @media (max-width: 768px) {
+            .gallery img { /* Все изображения галереи на мобильных */
+                height: auto; /* Высота автоматически подстраивается */
+                aspect-ratio: 16 / 9; /* Постоянный формат 16:9 для всех изображений */
+                object-fit: cover; /* Изображение будет обрезать, чтобы заполнить формат */
             }
-            .gallery img:hover {
-                transform: scale(2); /* Увеличение до 100% */
-            }
-        }
-        /* На 1200px и шире, если есть 3 колонки, увеличение 2.0 (100%) */
-        @media (min-width: 1200px) and (max-width: 1599px) {
-            .gallery img:hover {
-                transform: scale(2); /* Увеличение до 100% */
-            }
-        }
-        /* На 992px и шире, если есть 2 колонки, увеличение 2.0 (100%) */
-        @media (min-width: 992px) and (max-width: 1199px) {
-            .gallery img:hover {
-                transform: scale(2); /* Увеличение до 100% */
-            }
-        }
-        /* На 768px и шире, если есть 2 колонки, увеличение 2.5 (150%) */
-        @media (min-width: 768px) and (max-width: 991px) {
-            .gallery img:hover {
-                width: 90vw; /* Увеличиваем, чтобы занять 90% ширины экрана */
-                height: auto; /* Автоматическая высота для сохранения пропорций */
-                aspect-ratio: 16 / 9; /* Устанавливаем пропорции 16:9 */
-                margin: 0 auto; /* Центрируем изображение */
-                display: block; /* Важно для работы margin auto */
+
+            .gallery img:hover { /* Эффект увеличения для мобильных */
+                width: 90vw; /* Занимает 90% ширины экрана, чтобы не выходить за рамки */
+                height: auto; /* Высота подстраивается под 16:9 */
+                margin: 0 auto; /* Центрируем изображение по горизонтали */
+                display: block; /* Важно для корректной работы margin auto */
                 box-shadow: var(--shadow-strong);
                 z-index: 10;
                 position: relative;
-            }
-        }
-        /* На 480px и шире, если есть 1 колонка, увеличение 2.0 (100%) */
-        @media (min-width: 480px) and (max-width: 767px) {
-            .gallery img:hover {
-                width: 90vw; /* Увеличиваем, чтобы занять 90% ширины экрана */
-                height: auto; /* Автоматическая высота для сохранения пропорций */
-                aspect-ratio: 16 / 9; /* Устанавливаем пропорции 16:9 */
-                margin: 0 auto; /* Центрируем изображение */
-                display: block; /* Важно для работы margin auto */
-                box-shadow: var(--shadow-strong);
-                z-index: 10;
-                position: relative;
-            }
-        }
-        /* На самых маленьких экранах, 1 колонка, увеличение 2.0 (100%) */
-        @media (max-width: 479px) {
-            .gallery img:hover {
-                width: 90vw; /* Увеличиваем, чтобы занять 90% ширины экрана */
-                height: auto; /* Автоматическая высота для сохранения пропорций */
-                aspect-ratio: 16 / 9; /* Устанавливаем пропорции 16:9 */
-                margin: 0 auto; /* Центрируем изображение */
-                display: block; /* Важно для работы margin auto */
-                box-shadow: var(--shadow-strong);
-                z-index: 10;
-                position: relative;
+                transform: none; /* Отключаем предыдущее масштабирование transform: scale() */
+                transition: all 0.3s ease; /* Плавный переход для всех свойств */
             }
         }
 
+        /* Удалены ранее отдельные медиа-запросы для .gallery img:hover
+           для 991px, 767px, 479px, чтобы избежать конфликтов и обеспечить
+           единообразное поведение на всех мобильных разрешениях до 768px.
+           Настольный .gallery img:hover по-прежнему работает для больших экранов. */
 
         .gallery-note {
             text-align: center;
