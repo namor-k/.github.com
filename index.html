@@ -7,16 +7,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #48b432; /* Темно-синий/почти черный для контраста */
-            --secondary-color: #3498db; /* Яркий синий для акцентов */
-            --light-bg: #ecf0f1; /* Очень светлый серый фон */
+            --primary-color: #48b432;
+            --secondary-color: #3498db;
+            --light-bg: #ecf0f1;
             --white-bg: #ffffff;
-            --text-color: #34495e; /* Темный серый для текста */
+            --text-color: #34495e;
             --shadow-light: 0 4px 8px rgba(0,0,0,0.05);
             --shadow-medium: 0 8px 16px rgba(0,0,0,0.1);
             --shadow-strong: 0 12px 24px rgba(0,0,0,0.2);
             --border-radius-card: 10px;
-            --form-border-color: #99aab5; /* Более заметный цвет рамки для полей формы */
+            --form-border-color: #99aab5;
+            --overlay-bg: rgba(0, 0, 0, 0.8); /* Фон затемнения */
         }
 
         body {
@@ -52,21 +53,21 @@
         }
 
         main {
-            width: 100%; /* Занимает всю доступную ширину */
+            width: 100%;
             margin: 40px auto;
-            padding: 0; /* Убраны боковые отступы */
-            box-sizing: border-box; /* Чтобы padding учитывался в ширине */
+            padding: 0;
+            box-sizing: border-box;
         }
 
         section {
             background: var(--white-bg);
             padding: 3em;
             margin-bottom: 40px;
-            border-radius: 0; /* Убрал скругление углов для эффекта полной ширины */
+            border-radius: 0;
             box-shadow: var(--shadow-light);
             transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
         }
-        
+
         section:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-medium);
@@ -93,13 +94,13 @@
             background: var(--secondary-color);
             border-radius: 2px;
         }
-        
+
         /* Стили для секции с видео */
         #welcome {
             padding-left: 0;
             padding-right: 0;
         }
-        
+
         #welcome h2, #welcome .welcome-content {
             padding-left: 3em;
             padding-right: 3em;
@@ -112,12 +113,12 @@
             margin-top: 20px;
             line-height: 1.7;
         }
-        
+
         video {
             display: block;
-            width: 100%; 
-            max-width: 100%; 
-            height: auto; 
+            width: 100%;
+            max-width: 100%;
+            height: auto;
             margin: 0;
         }
 
@@ -150,10 +151,10 @@
             background: #e0e5e9;
         }
 
-        /* Стиль для изображений услуг (максимально увеличены, не обрезаются) */
+        /* Стиль для изображений услуг */
         .service-card img {
-            width: 100%; /* Занимает всю доступную ширину карточки */
-            max-width: 180px; /* Увеличил максимальный размер */
+            width: 100%;
+            max-width: 180px;
             height: auto;
             aspect-ratio: 1/1;
             object-fit: contain;
@@ -164,13 +165,13 @@
             transition: transform 0.3s ease, border-color 0.3s ease;
             padding: 5px;
             background-color: var(--white-bg);
-            transform: scale(1); /* Начальное состояние */
+            transform: scale(1);
         }
         .service-card:hover img {
-            transform: scale(2); /* Увеличиваем на 100% (то есть в 2 раза) */
+            transform: scale(2);
             border-color: var(--primary-color);
-            z-index: 10; /* Поднимаем картинку над соседними */
-            position: relative; /* Необходим для z-index */
+            z-index: 10;
+            position: relative;
         }
 
         .service-card h3 {
@@ -188,33 +189,54 @@
 
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Уменьшенные превью */
+            gap: 10px;
             margin-top: 2em;
             max-width: 100%;
             margin-left: auto;
             margin-right: auto;
+            padding: 0 10px;
             box-sizing: border-box;
         }
 
         .gallery img {
             width: 100%;
-            aspect-ratio: 1 / 1; /* Соотношение 1:1 (квадрат) для десктопа */
+            height: auto;
             object-fit: cover;
             border-radius: var(--border-radius-card);
             box-shadow: var(--shadow-light);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: zoom-in;
-            transform: scale(1);
+            cursor: pointer;
         }
 
-        .gallery img:hover {
-            transform: scale(1.5);
-            box-shadow: var(--shadow-strong);
-            z-index: 10;
-            position: relative;
+        /* Стили для оверлея и увеличенного изображения */
+        .image-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay-bg);
+            z-index: 20;
+            justify-content: center;
+            align-items: center;
+            overflow: auto; /* Для больших изображений */
         }
-        
+
+        .image-overlay img {
+            display: block;
+            max-width: 90%; /* Чтобы не выходило за края экрана */
+            max-height: 90%;
+            margin: auto; /* Центрирование */
+            border-radius: var(--border-radius-card);
+            box-shadow: var(--shadow-strong);
+        }
+
+        .image-overlay.active {
+            display: flex;
+        }
+
         .gallery-note {
             text-align: center;
             font-style: italic;
@@ -231,7 +253,7 @@
 
         .telegram-button {
             display: inline-block;
-            background: #0088cc; /* Цвет Telegram */
+            background: #0088cc;
             color: white;
             padding: 15px 30px;
             border-radius: var(--border-radius-card);
@@ -244,7 +266,7 @@
         }
 
         .telegram-button:hover {
-            background: #0077b3; /* Чуть темнее при наведении */
+            background: #0077b3;
             transform: translateY(-3px) scale(1.02);
             box-shadow: var(--shadow-strong);
         }
@@ -269,10 +291,10 @@
         form input:where([type="text"],[type="email"],[type="tel"]),
         form textarea {
             width: 100%;
-            min-height: 120px; /* Увеличена минимальная высота для видимости */
+            min-height: 120px;
             resize: vertical;
             padding: 12px;
-            border: 1px solid var(--form-border-color); /* Используем новую переменную для цвета рамки */
+            border: 1px solid var(--form-border-color);
             border-radius: var(--border-radius-card);
             box-sizing: border-box;
             font-family: 'Open Sans', sans-serif;
@@ -356,8 +378,10 @@
                 height: 140px;
                 border-radius: 6px;
             }
-            .gallery img {
-                aspect-ratio: 16 / 9; /* Соотношение 16:9 для мобильных */
+            .gallery {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Ещё меньше на мобильных */
+                gap: 8px;
+                padding: 0 8px;
             }
         }
 
@@ -485,22 +509,25 @@
         <section id="portfolio">
             <h2>Примеры работ</h2>
             <div class="gallery">
-                <img alt="Фото выполненных работ 1" src="1.jpg"/>
-                <img alt="Фото выполненных работ 2" src="2.jpg"/>
-                <img alt="Фото выполненных работ 3" src="3.jpg"/>
-                <img alt="Фото выполненных работ 4" src="4.jpg"/>
-                <img alt="Фото выполненных работ 5" src="5.jpg"/>
-                <img alt="Фото выполненных работ 6" src="6.jpg"/>
-                <img alt="Фото выполненных работ 7" src="7.jpg"/>
-                <img alt="Фото выполненных работ 8" src="8.jpg"/>
-                <img alt="Фото выполненных работ 9" src="9.jpg"/>
-                <img alt="Фото выполненных работ 10" src="10.jpg"/>
-                <img alt="Фото выполненных работ 11" src="11.jpg"/>
-                <img alt="Фото выполненных работ 12" src="12.jpg"/>
+                <img src="1.jpg" alt="Фото выполненных работ 1">
+                <img src="2.jpg" alt="Фото выполненных работ 2">
+                <img src="3.jpg" alt="Фото выполненных работ 3">
+                <img src="4.jpg" alt="Фото выполненных работ 4">
+                <img src="5.jpg" alt="Фото выполненных работ 5">
+                <img src="6.jpg" alt="Фото выполненных работ 6">
+                <img src="7.jpg" alt="Фото выполненных работ 7">
+                <img src="8.jpg" alt="Фото выполненных работ 8">
+                <img src="9.jpg" alt="Фото выполненных работ 9">
+                <img src="10.jpg" alt="Фото выполненных работ 10">
+                <img src="11.jpg" alt="Фото выполненных работ 11">
+                <img src="12.jpg" alt="Фото выполненных работ 12">
+            </div>
+            <div class="image-overlay">
+                <img src="" alt="Увеличенное изображение">
             </div>
             <p class="gallery-note">
                 Здесь вы можете ознакомиться с примерами наших выполненных работ.
-                Чтобы увидеть больше, свяжитесь с нами!
+                Кликните на изображение, чтобы увеличить.
             </p>
         </section>
 
@@ -544,16 +571,40 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const gallery = document.querySelector('.gallery');
+            const overlay = document.querySelector('.image-overlay');
+            const overlayImage = overlay.querySelector('img');
+
+            if (gallery && overlay && overlayImage) {
+                gallery.addEventListener('click', function(event) {
+                    if (event.target.tagName === 'IMG') {
+                        const imageUrl = event.target.src;
+                        overlayImage.src = imageUrl;
+                        overlay.classList.add('active');
+                        // Добавляем обработчик клика для закрытия по оверлею
+                        overlay.addEventListener('click', closeOverlay);
+                    }
+                });
+
+                // Функция закрытия оверлея
+                function closeOverlay(event) {
+                    if (event.target === overlay) { // Закрываем только при клике на фон
+                        overlay.classList.remove('active');
+                        overlay.removeEventListener('click', closeOverlay); // Удаляем обработчик
+                    }
+                }
+            }
+
             const form = document.getElementById('telegram-form');
             const botToken = '7581738679:AAFOfWXjuC1gxmt_YVu-MhKfASNfc0pU2z0';
-            const chatId = form.querySelector('input[name="chat_id"]').value;
+            const chatId = form.querySelector('inputpajka_trub_santehnika.pngame="chat_id"]').value;
 
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
 
-                const name = form.querySelector('input[name="Имя"]').value;
-                const phone = form.querySelector('input[name="Телефон"]').value;
-                const message = form.querySelector('textarea[name="Сообщение"]').value;
+                const name = form.querySelector('inputpajka_trub_santehnika.pngame="Имя"]').value;
+                const phone = form.querySelector('inputpajka_trub_santehnika.pngame="Телефон"]').value;
+                const message = form.querySelector('textarea').value;
 
                 if (!name.trim() || !phone.trim() || !message.trim()) {
                     alert('Пожалуйста, заполните все обязательные поля: Имя, Телефон и Сообщение.');
