@@ -7,8 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #2c3e50; /* Темно-синий/почти черный для контраста */
-            --secondary-color: #3498db; /* Яркий синий для акцентов */
+            --primary-color: #12bb44; /* Темно-синий/почти черный для контраста */
+            --secondary-color: #12bb44; /* Яркий синий для акцентов */
             --light-bg: #ecf0f1; /* Очень светлый серый фон */
             --white-bg: #ffffff;
             --text-color: #34495e; /* Темный серый для текста */
@@ -111,21 +111,18 @@
             line-height: 1.7;
         }
 
-        /* Обновленные стили для видео: на десктопах - на всю ширину viewport, на мобильных - на 100% ширины main */
         .video-wrapper {
+            width: 100vw;
             position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
             padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
             height: 0;
             overflow: hidden;
             margin-bottom: 2em;
             background-color: black;
-
-            /* По умолчанию для десктопов: на всю ширину viewport */
-            width: 100vw;
-            left: 50%;
-            right: 50%;
-            margin-left: -50vw;
-            margin-right: -50vw;
         }
         .video-wrapper video {
             position: absolute;
@@ -134,22 +131,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-        }
-
-        /* Адаптивность для видео */
-        @media (max-width: 768px) {
-            .video-wrapper {
-                width: 100%; /* Занимает 100% ширины родителя (main) */
-                margin-left: 0;
-                margin-right: 0;
-                left: 0; /* Сбрасываем позиционирование, чтобы не было смещения */
-                right: 0;
-                border-radius: var(--border-radius-card); /* Добавляем скругление на мобильных */
-                box-shadow: var(--shadow-light); /* Добавляем тень на мобильных */
-            }
-            .video-wrapper video {
-                border-radius: var(--border-radius-card); /* Добавляем скругление на видео */
-            }
         }
 
 
@@ -221,13 +202,14 @@
         .gallery {
             display: grid;
             grid-template-columns: repeat(3, 1fr); /* 3 колонки в ряд */
-            gap: 15px; /* Отступ между фото */
+            gap: 15px; /* Уменьшил отступ между фото */
             margin-top: 2em;
-            max-width: 100%; /* Использовать всю доступную ширину родителя */
+            max-width: 95%; /* Ограничиваем ширину галереи */
             margin-left: auto;
             margin-right: auto;
-            padding: 0 15px; /* Внутренние отступы для защиты от выхода за края */
-            box-sizing: border-box; /* Учитываем padding в ширине */
+            padding: 15px; /* Увеличил внутренние отступы */
+            box-sizing: border-box; /* Чтобы padding не увеличивал общую ширину */
+            /* overflow: hidden; */ /* Если хотим обрезать, что выходит за рамки */
         }
         /* Адаптивность для галереи */
         @media (max-width: 1200px) { /* На экранах до 1200px, 3 колонки (по умолчанию) */
@@ -248,7 +230,7 @@
 
         .gallery img {
             width: 100%;
-            height: 180px; /* Возвращаем к предыдущему размеру */
+            height: 200px; /* Сохраняем высоту */
             aspect-ratio: 1 / 1; /* Квадратные изображения */
             object-fit: cover;
             border-radius: var(--border-radius-card);
@@ -259,16 +241,51 @@
         }
 
         .gallery img:hover {
-            transform: scale(1.5); /* Увеличиваем на 50% */
+            transform: scale(2); /* Увеличиваем на 100% (то есть в 2 раза) */
             box-shadow: var(--shadow-strong);
             z-index: 10;
             position: relative;
         }
 
-        /* Медиа-запросы для галереи, чтобы уменьшить увеличение на меньших экранах, если 1.5 слишком много */
-        @media (max-width: 767px) { /* Мобильные телефоны (все) */
+        /* Медиа-запросы для галереи, чтобы уменьшить увеличение на меньших экранах */
+        /* На 1600px и шире, если есть 3 колонки, увеличение 2.0 (100%) */
+        @media (min-width: 1600px) {
+            .gallery {
+                grid-template-columns: repeat(3, 1fr); /* Позволяет 3 колонки на больших экранах */
+                max-width: 1000px; /* Ограничиваем ширину галереи, чтобы картинки не были слишком большими */
+            }
             .gallery img:hover {
-                transform: scale(1.3); /* Уменьшаем до 30% на мобильных */
+                transform: scale(2); /* Увеличение до 100% */
+            }
+        }
+        /* На 1200px и шире, если есть 3 колонки, увеличение 2.0 (100%) */
+        @media (min-width: 1200px) and (max-width: 1599px) {
+            .gallery img:hover {
+                transform: scale(2); /* Увеличение до 100% */
+            }
+        }
+        /* На 992px и шире, если есть 2 колонки, увеличение 2.0 (100%) */
+        @media (min-width: 992px) and (max-width: 1199px) {
+            .gallery img:hover {
+                transform: scale(2); /* Увеличение до 100% */
+            }
+        }
+        /* На 768px и шире, если есть 2 колонки, увеличение 2.5 (150%) */
+        @media (min-width: 768px) and (max-width: 991px) {
+            .gallery img:hover {
+                transform: scale(2.5); /* Немного уменьшаем увеличение на планшетах */
+            }
+        }
+        /* На 480px и шире, если есть 1 колонка, увеличение 2.0 (100%) */
+        @media (min-width: 480px) and (max-width: 767px) {
+            .gallery img:hover {
+                transform: scale(2.5); /* На мобильных с 2 колонками */
+            }
+        }
+        /* На самых маленьких экранах, 1 колонка, увеличение 2.0 (100%) */
+        @media (max-width: 479px) {
+            .gallery img:hover {
+                transform: scale(2); /* Увеличение 100% на самых маленьких */
             }
         }
 
@@ -511,7 +528,7 @@
                 <div class="service-card">
                     <img src="svarochnye_raboty.png" alt="Сварочные работы">
                     <h3>Сварочные работы</h3>
-                    <p>Выполнение сварочных работ любой сложности для различных конструкций.</p>
+                    <p>Выполнение сварочных работ для различных конструкций.</p>
                 </div>
                 <div class="service-card">
                     <img src="pajka_trub_santehnika.png" alt="Пайка пластиковых труб и сантехника">
@@ -524,7 +541,7 @@
                     <p>Профессиональная и аккуратная установка сайдинга на любые поверхности.</p>
                 </div>
                  <div class="service-card">
-                    <img src="ukladka_laminata.png" alt="Укладка ламината">
+                    <img src="laminate_install.png" alt="Укладка ламината">
                     <h3>Укладка ламината</h3>
                     <p>Качественная укладка ламината и других напольных покрытий.</p>
                 </div>
@@ -539,22 +556,22 @@
                     <p>Диагностика и ремонт крупной и мелкой бытовой техники.</p>
                 </div>
                 <div class="service-card">
-                    <img src="svarochnye_metallokonstrukcii.png" alt="Сварка металлоконструкций">
+                    <img src="svarochnye_raboty.png" alt="Сварка металлоконструкций">
                     <h3>Сварка металлоконструкций</h3>
-                    <p>Профессиональная сварка и монтаж металлоконструкций любой сложности.</p>
+                    <p>Изготовление и монтаж металлоконструкций .</p>
                 </div>
                 <div class="service-card">
-                    <img src="montazh_demontazh.png" alt="Монтаж и демонтаж конструкций">
+                    <img src="structures_assembly.png" alt="Монтаж и демонтаж конструкций">
                     <h3>Монтаж и демонтаж конструкций</h3>
                     <p>Сборка и разборка различных строительных и бытовых конструкций.</p>
                 </div>
                 <div class="service-card">
-                    <img src="melkij_remont_mebel.png" alt="Мелкий бытовой ремонт и сборка мебели">
+                    <img src="minor_repairs.png" alt="Мелкий бытовой ремонт и сборка мебели">
                     <h3>Мелкий бытовой ремонт и сборка мебели</h3>
                     <p>Ремонт мебели, навеска полок, установка карнизов и другие мелкие задачи.</p>
                 </div>
                  <div class="service-card">
-                    <img src="vyiezd_remont.png" alt="Выезд к месту ремонта">
+                    <img src="vyjezd_k_mestu.png" alt="Выезд к месту ремонта">
                     <h3>Выезд к месту ремонта</h3>
                     <p>Оперативный выезд по Тамбову и области для оценки и выполнения работ.</p>
                 </div>
@@ -586,7 +603,7 @@
         <section id="contact-info-section">
             <h2>Связь с нами</h2>
             <p style="text-align: center;">
-                Возникли вопросы или нужна помощь? Свяжитесь с нами удобным для вас способом:
+                Возникли вопросы или нужна помощь? Свяжитесь с нами.
             </p>
             <p style="text-align: center;">
                 <a href="https://t.me/MasterTambovOtDyshi_Bot" target="_blank" class="telegram-button">
