@@ -29,13 +29,11 @@
             scroll-behavior: smooth;
         }
 
-        /* Новые стили для отключения эффектов при просмотре фото */
         body.image-viewer-active .gallery img:hover,
         body.image-viewer-active section:hover {
             transform: none;
             box-shadow: var(--shadow-light);
         }
-
 
         header {
             background: var(--primary-color);
@@ -218,7 +216,6 @@
             transform: scale(1.05);
         }
 
-        /* --- Стили для просмотра изображений БЕЗ ФОНА --- */
         #image-viewer {
             display: flex;
             justify-content: center;
@@ -318,7 +315,15 @@
         }
         
         form input {
-            min-height: 0; /* Отменяем min-height для input */
+            min-height: 0;
+        }
+        
+        form input[type="file"] {
+            padding: 10px;
+            background: #fdfdfd;
+            border: 1px solid var(--form-border-color);
+            border-radius: var(--border-radius-card);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.03);
         }
 
         form button {
@@ -361,79 +366,32 @@
             box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
         }
 
-        /* Адаптивность */
         @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.5em;
-            }
-            header p {
-                font-size: 1em;
-            }
-            section {
-                padding: 2em;
-                margin-bottom: 25px;
-            }
-            #welcome {
-                padding-top: 2em;
-                padding-bottom: 2em;
-                padding-left: 0;
-                padding-right: 0;
-            }
-            #welcome h2, #welcome .welcome-content {
-                padding-left: 2em;
-                padding-right: 2em;
-            }
-            section h2 {
-                font-size: 2.2em;
-                padding-bottom: 10px;
-            }
-            section h2::after {
-                width: 80px;
-                height: 2px;
-            }
-            .service-card img {
-                width: 140px;
-                height: 140px;
-                border-radius: 6px;
-            }
-            .gallery {
-                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-                gap: 8px;
-                padding: 0 8px;
-            }
+            header h1 {font-size: 2.5em;}
+            header p {font-size: 1em;}
+            section {padding: 2em; margin-bottom: 25px;}
+            #welcome {padding-top: 2em; padding-bottom: 2em; padding-left: 0; padding-right: 0;}
+            #welcome h2, #welcome .welcome-content {padding-left: 2em; padding-right: 2em;}
+            section h2 {font-size: 2.2em; padding-bottom: 10px;}
+            section h2::after {width: 80px; height: 2px;}
+            .service-card img {width: 140px; height: 140px; border-radius: 6px;}
+            .gallery {grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px; padding: 0 8px;}
         }
 
         @media (max-width: 480px) {
-            header h1 {
-                font-size: 2em;
-            }
-            header p {
-                font-size: 0.9em;
-            }
-            section {
-                padding: 1.5em;
-            }
-             #welcome {
-                padding-top: 1.5em;
-                padding-bottom: 1.5em;
-                padding-left: 0;
-                padding-right: 0;
-            }
-            #welcome h2, #welcome .welcome-content {
-                padding-left: 1.5em;
-                padding-right: 1.5em;
-            }
-            .service-card h3 {
-                font-size: 1.3em;
-            }
-            .service-card img {
-                width: 120px;
-                height: 120px;
-            }
+            header h1 {font-size: 2em;}
+            header p {font-size: 0.9em;}
+            section {padding: 1.5em;}
+            #welcome {padding-top: 1.5em; padding-bottom: 1.5em; padding-left: 0; padding-right: 0;}
+            #welcome h2, #welcome .welcome-content {padding-left: 1.5em; padding-right: 1.5em;}
+            .service-card h3 {font-size: 1.3em;}
+            .service-card img {width: 120px; height: 120px;}
         }
     </style>
 </head>
 <body>
+    <iframe name="telegram_iframe" id="telegram_iframe" style="display: none;"></iframe>
+    
     <header>
         <h1>Мастер на все руки</h1>
         <p>Надежные решения для вашего дома в Тамбове</p>
@@ -456,132 +414,63 @@
         <section id="services">
             <h2>Наши услуги</h2>
             <div class="services-grid">
-                <div class="service-card">
-                    <img src="lektroprovodka (2).png" alt="Электропроводка">
-                    <h3>Электропроводка</h3>
-                    <p>Монтаж, ремонт и диагностика электропроводки, пайка контактов.</p>
-                </div>
-                <div class="service-card">
-                    <img src="откосы.png" alt="Металл, сайдинг, откосы">
-                    <h3>Металл, сайдинг, откосы</h3>
-                    <p>Работы с металлическими элементами, установка сайдинга и отделка откосов.</p>
-                </div>
-                <div class="service-card">
-                    <img src="videosemka_montazh_3d.png" alt="Видеосъёмка, монтаж, 3D">
-                    <h3>Видеосъёмка, монтаж, 3D</h3>
-                    <p>Профессиональная видеосъёмка, качественный монтаж и создание 3D-моделей.</p>
-                </div>
-                <div class="service-card">
-                    <img src="svarochnye_raboty.png" alt="Сварочные работы">
-                    <h3>Сварочные работы</h3>
-                    <p>Выполнение сварочных работ различных конструкций.</p>
-                </div>
-                <div class="service-card">
-                    <img src="pajka_trub_santehnika.png" alt="Пайка пластиковых труб и сантехника">
-                    <h3>Пайка пластиковых труб и сантехника</h3>
-                    <p>Монтаж и ремонт систем водоснабжения, отопления, замена и установка сантехники.</p>
-                </div>
-                <div class="service-card">
-                    <img src="metall_sajding_otkosy.png" alt="Монтаж сайдинга">
-                    <h3>Монтаж сайдинга</h3>
-                    <p>Профессиональная и аккуратная установка сайдинга на любые поверхности.</p>
-                </div>
-                 <div class="service-card">
-                    <img src="laminate_install.png" alt="Укладка ламината">
-                    <h3>Укладка ламината</h3>
-                    <p>Качественная укладка ламината и других напольных покрытий.</p>
-                </div>
-                <div class="service-card">
-                    <img src="ustanovka_okon.png" alt="Установка пластиковых окон">
-                    <h3>Установка пластиковых окон</h3>
-                    <p>Монтаж и замена пластиковых окон, включая отделку.</p>
-                </div>
-                <div class="service-card">
-                    <img src="remont_bytovoj_tehniki.png" alt="Ремонт бытовой техники">
-                    <h3>Ремонт бытовой техники</h3>
-                    <p>Диагностика и ремонт крупной и мелкой бытовой техники.</p>
-                </div>
-                <div class="service-card">
-                    <img src="svarochnye_raboty.png" alt="Сварка металлоконструкций">
-                    <h3>Сварка металлоконструкций</h3>
-                    <p>Сварка и монтаж металлоконструкций.</p>
-                </div>
-                <div class="service-card">
-                    <img src="structures_assembly.png" alt="Монтаж и демонтаж конструкций">
-                    <h3>Монтаж и демонтаж конструкций</h3>
-                    <p>Сборка и разборка различных строительных и бытовых конструкций.</p>
-                </div>
-                <div class="service-card">
-                    <img src="minor_repairs.png" alt="Мелкий бытовой ремонт и сборка мебели">
-                    <h3>Мелкий бытовой ремонт и сборка мебели</h3>
-                    <p>Ремонт мебели, навеска полок, установка карнизов и другие мелкие задачи.</p>
-                </div>
-                 <div class="service-card">
-                    <img src="vyjezd_k_mestu.png" alt="Выезд к месту ремонта">
-                    <h3>Выезд к месту ремонта</h3>
-                    <p>Оперативный выезд по Тамбову и области для оценки и выполнения работ.</p>
-                </div>
+                <div class="service-card"><img src="lektroprovodka (2).png" alt="Электропроводка"><h3>Электропроводка</h3><p>Монтаж, ремонт и диагностика электропроводки, пайка контактов.</p></div>
+                <div class="service-card"><img src="откосы.png" alt="Металл, сайдинг, откосы"><h3>Металл, сайдинг, откосы</h3><p>Работы с металлическими элементами, установка сайдинга и отделка откосов.</p></div>
+                <div class="service-card"><img src="videosemka_montazh_3d.png" alt="Видеосъёмка, монтаж, 3D"><h3>Видеосъёмка, монтаж, 3D</h3><p>Профессиональная видеосъёмка, качественный монтаж и создание 3D-моделей.</p></div>
+                <div class="service-card"><img src="svarochnye_raboty.png" alt="Сварочные работы"><h3>Сварочные работы</h3><p>Выполнение сварочных работ различных конструкций.</p></div>
+                <div class="service-card"><img src="pajka_trub_santehnika.png" alt="Пайка пластиковых труб и сантехника"><h3>Пайка пластиковых труб и сантехника</h3><p>Монтаж и ремонт систем водоснабжения, отопления, замена и установка сантехники.</p></div>
+                <div class="service-card"><img src="metall_sajding_otkosy.png" alt="Монтаж сайдинга"><h3>Монтаж сайдинга</h3><p>Профессиональная и аккуратная установка сайдинга на любые поверхности.</p></div>
+                <div class="service-card"><img src="laminate_install.png" alt="Укладка ламината"><h3>Укладка ламината</h3><p>Качественная укладка ламината и других напольных покрытий.</p></div>
+                <div class="service-card"><img src="ustanovka_okon.png" alt="Установка пластиковых окон"><h3>Установка пластиковых окон</h3><p>Монтаж и замена пластиковых окон, включая отделку.</p></div>
+                <div class="service-card"><img src="remont_bytovoj_tehniki.png" alt="Ремонт бытовой техники"><h3>Ремонт бытовой техники</h3><p>Диагностика и ремонт крупной и мелкой бытовой техники.</p></div>
+                <div class="service-card"><img src="svarochnye_raboty.png" alt="Сварка металлоконструкций"><h3>Сварка металлоконструкций</h3><p>Сварка и монтаж металлоконструкций.</p></div>
+                <div class="service-card"><img src="structures_assembly.png" alt="Монтаж и демонтаж конструкций"><h3>Монтаж и демонтаж конструкций</h3><p>Сборка и разборка различных строительных и бытовых конструкций.</p></div>
+                <div class="service-card"><img src="minor_repairs.png" alt="Мелкий бытовой ремонт и сборка мебели"><h3>Мелкий бытовой ремонт и сборка мебели</h3><p>Ремонт мебели, навеска полок, установка карнизов и другие мелкие задачи.</p></div>
+                <div class="service-card"><img src="vyjezd_k_mestu.png" alt="Выезд к месту ремонта"><h3>Выезд к месту ремонта</h3><p>Оперативный выезд по Тамбову и области для оценки и выполнения работ.</p></div>
             </div>
         </section>
 
         <section id="portfolio">
             <h2>Примеры работ</h2>
             <div class="gallery">
-                <img src="1.jpg" alt="Фото выполненных работ 1">
-                <img src="2.jpg" alt="Фото выполненных работ 2">
-                <img src="3.jpg" alt="Фото выполненных работ 3">
-                <img src="4.jpg" alt="Фото выполненных работ 4">
-                <img src="5.jpg" alt="Фото выполненных работ 5">
-                <img src="6.jpg" alt="Фото выполненных работ 6">
-                <img src="7.jpg" alt="Фото выполненных работ 7">
-                <img src="8.jpg" alt="Фото выполненных работ 8">
-                <img src="9.jpg" alt="Фото выполненных работ 9">
-                <img src="10.jpg" alt="Фото выполненных работ 10">
-                <img src="11.jpg" alt="Фото выполненных работ 11">
-                <img src="12.jpg" alt="Фото выполненных работ 12">
+                <img src="1.jpg" alt="Фото работ 1"><img src="2.jpg" alt="Фото работ 2"><img src="3.jpg" alt="Фото работ 3"><img src="4.jpg" alt="Фото работ 4"><img src="5.jpg" alt="Фото работ 5"><img src="6.jpg" alt="Фото работ 6"><img src="7.jpg" alt="Фото работ 7"><img src="8.jpg" alt="Фото работ 8"><img src="9.jpg" alt="Фото работ 9"><img src="10.jpg" alt="Фото работ 10"><img src="11.jpg" alt="Фото работ 11"><img src="12.jpg" alt="Фото работ 12">
             </div>
-            <div id="image-viewer">
-                <img src="" alt="Увеличенное изображение">
-            </div>
-            <p class="gallery-note">
-                Кликните на изображение для увеличения.
-            </p>
+            <div id="image-viewer"><img src="" alt="Увеличенное изображение"></div>
+            <p class="gallery-note">Кликните на изображение для увеличения.</p>
         </section>
 
         <section id="contact-info-section">
             <h2>Связь с нами</h2>
-            <p style="text-align: center;">
-                Возникли вопросы или нужна помощь? Свяжитесь с нами удобным для вас способом:
-            </p>
-            <p style="text-align: center;">
-                <a href="https://t.me/MasterTambovOtDyshi_Bot" target="_blank" class="telegram-button">
-                    Написать в Telegram
-                </a>
-            </p>
+            <p style="text-align: center;">Возникли вопросы или нужна помощь? Свяжитесь с нами удобным для вас способом:</p>
+            <p style="text-align: center;"><a href="https://t.me/MasterTambovOtDyshi_Bot" target="_blank" class="telegram-button">Написать в Telegram</a></p>
         </section>
 
         <section id="contact-form">
             <h2>Отправить заявку</h2>
             <form id="telegram-form">
-                <input name="chat_id" type="hidden" value="668627439"/>
-                
                 <label for="name">Ваше имя:</label>
-                <input id="name" name="Имя" required type="text" placeholder="Иван Иванов"/>
+                <input id="name" required type="text" placeholder="Иван Иванов"/>
 
                 <label for="phone">Ваш телефон:</label>
-                <input id="phone" name="Телефон" required type="text" placeholder="+7 (XXX) XXX-XX-XX"/>
+                <input id="phone" required type="text" placeholder="+7 (XXX) XXX-XX-XX"/>
                 
                 <label for="address">Ваш адрес (необязательно):</label>
-                <input id="address" name="Адрес" type="text" placeholder="г. Тамбов, ул. Советская, д. 1"/>
+                <input id="address" type="text" placeholder="г. Тамбов, ул. Советская, д. 1"/>
 
                 <label for="comment">Комментарий:</label>
-                <textarea id="comment" name="Комментарий" required rows="6" placeholder="Опишите вашу задачу или оставьте комментарий..."></textarea>
+                <textarea id="comment" required rows="6" placeholder="Опишите вашу задачу или оставьте комментарий..."></textarea>
+                
+                <label for="photo">Прикрепить фото (необязательно):</label>
+                <input id="photo" name="photo" type="file" accept="image/*"/>
+
+                <input name="chat_id" type="hidden" value="668627439"/>
+                <input name="caption" id="form-caption" type="hidden" value=""/>
 
                 <button type="submit">Отправить заявку</button>
             </form>
             <p class="form-note">
                 Ваша заявка будет отправлена напрямую в наш Telegram.
-                Мы свяжемся с вами в ближайшее время для уточнения деталей!
+                Мы свяжемся с вами в ближайшее время!
             </p>
         </section>
     </main>
@@ -592,70 +481,85 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- Финальный скрипт для галереи ---
+            // Скрипт для галереи
             const galleryImages = document.querySelectorAll('.gallery img');
             const imageViewer = document.getElementById('image-viewer');
-            
             if (imageViewer) {
                 const viewerImage = imageViewer.querySelector('img');
-
-                // Функция открытия просмотра
                 const openViewer = (e) => {
                     viewerImage.src = e.target.src;
                     imageViewer.classList.add('active');
                     document.body.classList.add('image-viewer-active');
                 };
-
-                // Функция закрытия просмотра
                 const closeViewer = () => {
                     imageViewer.classList.remove('active');
                     document.body.classList.remove('image-viewer-active');
                 };
-
-                // Навешиваем обработчик на каждую миниатюру
                 galleryImages.forEach(image => {
                     image.addEventListener('click', openViewer);
                 });
-
-                // Закрываем по клику на контейнер (пустое место) или на саму увеличенную картинку
                 imageViewer.addEventListener('click', closeViewer);
             }
-            // --- Конец скрипта для галереи ---
 
-
-            // --- Обновленный скрипт для формы Telegram ---
+            // --- УНИВЕРСАЛЬНЫЙ СКРИПТ ДЛЯ ОТПРАВКИ ФОРМЫ (С ФОТО И БЕЗ) ---
             const form = document.getElementById('telegram-form');
-            if (form) {
+            const iframe = document.getElementById('telegram_iframe');
+            if (form && iframe) {
                 const botToken = '7581738679:AAFOfWXjuC1gxmt_YVu-MhKfASnfc0pU2z0';
-                const chatId = form.querySelector('input[name="chat_id"]').value;
+                
+                let formSubmitted = false;
+
+                iframe.addEventListener('load', function() {
+                    if (formSubmitted) {
+                        alert('Ваша заявка успешно отправлена!');
+                        form.reset();
+                        formSubmitted = false;
+                    }
+                });
 
                 form.addEventListener('submit', function(e) {
-                    e.preventDefault();
+                    e.preventDefault(); // Всегда перехватываем отправку
 
-                    const name = form.querySelector('input[name="Имя"]').value;
-                    const phone = form.querySelector('input[name="Телефон"]').value;
-                    const address = form.querySelector('input[name="Адрес"]').value; // Получаем адрес
-                    const comment = form.querySelector('textarea[name="Комментарий"]').value; // Получаем комментарий
+                    const name = form.querySelector('#name').value;
+                    const phone = form.querySelector('#phone').value;
+                    const address = form.querySelector('#address').value;
+                    const comment = form.querySelector('#comment').value;
+                    const photoInput = form.querySelector('#photo');
+                    const chatId = form.querySelector('input[name="chat_id"]').value;
 
                     if (!name.trim() || !phone.trim() || !comment.trim()) {
-                        alert('Пожалуйста, заполните все обязательные поля: Имя, Телефон и Комментарий.');
+                        alert('Пожалуйста, заполните обязательные поля: Имя, Телефон и Комментарий.');
                         return;
                     }
+
+                    const messageText = `🛠 Новая заявка:\n` +
+                                        `👤 Имя: ${name}\n` +
+                                        `📞 Телефон: ${phone}\n` +
+                                        `📍 Адрес: ${address || 'не указан'}\n` +
+                                        `💬 Комментарий: ${comment}`;
                     
-                    // Формируем новое сообщение с иконками
-                    const fullTelegramMessage = `🛠 Новая заявка:\n` +
-                                                `👤 Имя: ${name}\n` +
-                                                `📞 Телефон: ${phone}\n` +
-                                                `📍 Адрес: ${address || 'не указан'}\n` + // Если адрес не указан, пишем "не указан"
-                                                `💬 Комментарий: ${comment}`;
+                    formSubmitted = true;
 
-                    const encodedMessage = encodeURIComponent(fullTelegramMessage);
-                    const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodedMessage}`;
+                    // Проверяем, прикреплен ли файл
+                    if (photoInput.files.length > 0) {
+                        // --- Сценарий 1: Отправка с фото ---
+                        form.action = `https://api.telegram.org/bot${botToken}/sendPhoto`;
+                        form.method = 'post';
+                        form.enctype = 'multipart/form-data';
+                        form.target = 'telegram_iframe';
+                        
+                        form.querySelector('#form-caption').value = messageText;
+                        
+                        form.submit();
 
-                    window.open(telegramApiUrl, '_blank');
-
-                    alert('Ваша заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.');
-                    form.reset();
+                    } else {
+                        // --- Сценарий 2: Отправка только текста ---
+                        const encodedMessage = encodeURIComponent(messageText);
+                        const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodedMessage}`;
+                        
+                        // Отправляем запрос через iframe, чтобы избежать перезагрузки
+                        iframe.src = telegramApiUrl;
+                    }
                 });
             }
         });
