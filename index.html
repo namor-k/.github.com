@@ -205,12 +205,12 @@
             transition: transform 0.3s ease;
             cursor: pointer;
         }
-        
+
         .gallery img:hover {
             transform: scale(1.05);
         }
 
-        /* --- Новые стили для просмотра изображений --- */
+        /* --- Стили для просмотра изображений --- */
         #image-viewer {
             display: none; /* Скрыт по умолчанию */
             position: fixed;
@@ -218,30 +218,30 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); /* Легкий полупрозрачный фон */
             z-index: 1000;
             cursor: pointer;
-            padding: 5vh 5vw; /* Отступы от краев экрана */
-            box-sizing: border-box;
             opacity: 0;
             transition: opacity 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         #image-viewer.active {
-            display: block;
+            display: flex;
             opacity: 1;
         }
 
         #image-viewer img {
             display: block;
-            width: 100%;
-            height: 100%;
+            max-width: 90vw;
+            max-height: 90vh;
             object-fit: contain; /* Вписывает картинку целиком */
             box-shadow: var(--shadow-strong);
             border-radius: var(--border-radius-card);
         }
-        /* --- Конец новых стилей --- */
-        
+        /* --- Конец стилей для просмотра изображений --- */
+
         .gallery-note {
             text-align: center;
             font-style: italic;
@@ -388,6 +388,10 @@
                 gap: 8px;
                 padding: 0 8px;
             }
+            #image-viewer img {
+                max-width: 95vw;
+                max-height: 85vh;
+            }
         }
 
         @media (max-width: 480px) {
@@ -416,6 +420,10 @@
             .service-card img {
                 width: 120px;
                 height: 120px;
+            }
+            #image-viewer img {
+                max-width: 98vw;
+                max-height: 80vh;
             }
         }
     </style>
@@ -575,10 +583,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- Новый скрипт для галереи ---
+            // --- Скрипт для галереи ---
             const galleryImages = document.querySelectorAll('.gallery img');
             const imageViewer = document.getElementById('image-viewer');
-            
+
             if (imageViewer) {
                 const viewerImage = imageViewer.querySelector('img');
 
@@ -590,7 +598,16 @@
                     });
                 });
 
-                imageViewer.addEventListener('click', () => {
+                // Закрытие по клику на контейнер (но не на саму картинку)
+                imageViewer.addEventListener('click', (e) => {
+                    if (e.target === imageViewer) {
+                        imageViewer.classList.remove('active');
+                    }
+                });
+
+                // Закрытие по повторному клику на саму картинку
+                viewerImage.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Предотвращаем закрытие по клику на контейнер
                     imageViewer.classList.remove('active');
                 });
             }
@@ -601,13 +618,13 @@
             const form = document.getElementById('telegram-form');
             if (form) {
                 const botToken = '7581738679:AAFOfWXjuC1gxmt_YVu-MhKfASNfc0pU2z0';
-                const chatId = form.querySelector('input[name="chat_id"]').value;
+                const chatId = form.querySelector('inputpajka_trub_santehnika.pngame="chat_id"]').value;
 
                 form.addEventListener('submit', function(e) {
                     e.preventDefault();
 
-                    const name = form.querySelector('input[name="Имя"]').value;
-                    const phone = form.querySelector('input[name="Телефон"]').value;
+                    const name = form.querySelector('inputpajka_trub_santehnika.pngame="Имя"]').value;
+                    const phone = form.querySelector('inputpajka_trub_santehnika.pngame="Телефон"]').value;
                     const message = form.querySelector('textarea').value;
 
                     if (!name.trim() || !phone.trim() || !message.trim()) {
